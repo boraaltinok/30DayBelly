@@ -6,13 +6,28 @@ public class Exercise {
     String name;
     int duration = 0;
     int volume;
+    int tier;
 
 
-    public Exercise(String name, int volume)
+    public Exercise(String name, int volume, int tier)
     {
         this.name = name;
         this.volume = volume;
-
+        this.tier = tier;
+        switch (tier){
+            case 1:
+                duration = 30;
+                break;
+            case 2:
+                duration = 25;
+                break;
+            case 3:
+                duration = 30;
+                break;
+            case 4:
+                duration = 40;
+                break;
+        }
     }
 
 

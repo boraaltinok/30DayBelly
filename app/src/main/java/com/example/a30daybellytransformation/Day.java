@@ -134,7 +134,7 @@ public class Day {
                 }
                 //result.add(tiers[random_tier_index][random_exercise_index]);
                 Exercise exercise = new Exercise(tiers[random_tier_index][random_exercise_index],
-                        selected_exercise_volume);
+                        selected_exercise_volume, random_tier_index + 1);
                 exerciseProgramList.add(exercise);
                 tmp_total_volume = tmp_total_volume - selected_exercise_volume;
             }

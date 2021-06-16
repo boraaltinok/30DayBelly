@@ -25,8 +25,6 @@ public class program_main extends AppCompatActivity {
 
         loadData();
 
-        Toast.makeText(this, "USERS NAME " + user.getName(), Toast.LENGTH_SHORT).show();
-
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
         MyAdapter myAdapter = new MyAdapter(this, user);
