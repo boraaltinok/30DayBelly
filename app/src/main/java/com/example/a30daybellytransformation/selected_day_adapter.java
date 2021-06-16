@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,10 +21,10 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         this.user = user;
         this.context = ct;
         this.day_of_month = day_of_month;
-        days_exercises = new Exercise[user.month.get(day_of_month).exerciseProgramList.size()];
-        for(int i = 0; i < user.month.get(day_of_month).exerciseProgramList.size(); i++)
+        days_exercises = new Exercise[user.month.get(day_of_month - 1).exerciseProgramList.size()];
+        for(int i = 0; i < user.month.get(day_of_month - 1).exerciseProgramList.size(); i++)
         {
-            days_exercises[i] =  user.month.get(day_of_month).exerciseProgramList.get(i);
+            days_exercises[i] =  user.month.get(day_of_month-1).exerciseProgramList.get(i);
         }
 
     }
@@ -38,14 +39,14 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.text_exerciseName.setText(""+user.month.get(position).exerciseProgramList.get(position).getName());
-        holder.text_exerciseDuration.setText(""+user.month.get(position).exerciseProgramList.get(position).getDuration());
+        holder.text_exerciseName.setText("" + days_exercises[position].getName());
+        holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
     }
 
 
     @Override
     public int getItemCount() {
-        return user.month.get(day_of_month).exerciseProgramList.size();
+        return user.month.get(day_of_month-1).exerciseProgramList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{

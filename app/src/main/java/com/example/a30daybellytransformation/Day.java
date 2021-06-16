@@ -80,7 +80,7 @@ public class Day {
         {
             this.totalVolume = this.default_volume + 240;
         }
-        else if(25 <= day_of_month)
+        else if(25 <= day_of_month && day_of_month <= 31)
         {
             this.totalVolume = this.default_volume + 300;
         }
@@ -88,17 +88,6 @@ public class Day {
     }
 
 
-    /*
-     *Prints todays exercises
-     */
-    /*public void printTodaysExercises()
-    {
-        for(int i = 0; i < exerciseProgramList.size(); i++)
-        {
-            System.out.println( (exerciseProgramList.get(i)).getName() + " VOLUME: " +
-                    (exerciseProgramList.get(i)).getVolume());
-        }
-    }*/
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void createProgram(String[][] tiers)
     {

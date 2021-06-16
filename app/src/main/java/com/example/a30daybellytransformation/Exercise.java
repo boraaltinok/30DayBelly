@@ -4,7 +4,7 @@ public class Exercise {
 
     //properties
     String name;
-    int duration;
+    int duration = 0;
     int volume;
 
 
@@ -12,7 +12,9 @@ public class Exercise {
     {
         this.name = name;
         this.volume = volume;
+
     }
+
 
     public String getName() {
         return name;

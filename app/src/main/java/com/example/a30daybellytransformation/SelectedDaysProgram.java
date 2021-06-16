@@ -28,8 +28,6 @@ public class SelectedDaysProgram extends AppCompatActivity {
         loadData();
         day_of_month = getIntent().getIntExtra("day of month", 1);
 
-        Toast.makeText(this, "DAY OF MONTH " + day_of_month, Toast.LENGTH_SHORT).show();
-
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
         selected_day_adapter selectedDayAdapter = new selected_day_adapter(this, user, day_of_month);
         recyclerView.setAdapter(selectedDayAdapter);
