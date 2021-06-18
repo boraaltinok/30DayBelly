@@ -42,7 +42,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
-        Toast.makeText(context, "position " + position, Toast.LENGTH_SHORT).show();
 
         holder.text_day_of_month.setText(days[position] + ". DAY");
         holder.text_exerciseCount.setText(user.month.get(position).exerciseProgramList.size() + "exercises");
