@@ -1,31 +1,30 @@
 package com.example.a30daybellytransformation;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Timer;
 
 public class SelectedDaysProgram extends AppCompatActivity {
     User user;
     RecyclerView recyclerView;
-    ImageButton btn_shuffle;
+    EditText overall_counter;
+
     String exerciseName;
     int exerciseDuration, day_of_month;
-    selected_day_adapter selectedDayAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,27 +33,14 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
         loadData();
         day_of_month = getIntent().getIntExtra("day of month", 1);
-        btn_shuffle = (ImageButton)findViewById(R.id.btn_shuffle);
+        SeekBar seekBarExercise = (SeekBar)findViewById(R.id.seekBarExercise);
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
-        selectedDayAdapter = new selected_day_adapter(this, user, day_of_month);
+        selected_day_adapter selectedDayAdapter = new selected_day_adapter(this, user, day_of_month);
+        overall_counter = findViewById(R.id.overall_counter);
+        overall_counter.setText();
         recyclerView.setAdapter(selectedDayAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        shuffle();
 
-    }
-
-    public void shuffle(){
-        btn_shuffle.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View v) {
-                user.month.get(day_of_month-1).shuffleProgram();
-                saveData();
-                loadData();
-                recyclerView.setAdapter(new selected_day_adapter(SelectedDaysProgram.this, user, day_of_month));
-                selectedDayAdapter.notifyDataSetChanged();
-            }
-        });
     }
 
     private void loadData()

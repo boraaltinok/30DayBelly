@@ -4,17 +4,21 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.Timer;
+
 public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adapter.MyViewHolder> {
     User user;
     Context context;
     int day_of_month;
     Exercise[] days_exercises;
+    Timer t;
 
     public selected_day_adapter(Context ct, User user, int day_of_month)
     {
@@ -41,6 +45,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.text_exerciseName.setText("" + days_exercises[position].getName());
         holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
+        holder.sb_seekBarExercise.setVisibility(View.GONE);
     }
 
 
@@ -52,12 +57,18 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView text_exerciseName, text_exerciseDuration;
+        SeekBar sb_seekBarExercise;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text_exerciseName = itemView.findViewById(R.id.tv_exerciseName);
             text_exerciseDuration = itemView.findViewById(R.id.tv_exerciseDuration);
+            sb_seekBarExercise = itemView.findViewById((R.id.seekBarExercise));
 
         }
+    }
+
+    private void seekBarHide(){
+
     }
 }
