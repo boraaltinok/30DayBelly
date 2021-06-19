@@ -132,12 +132,17 @@ public class Day {
                         selected_exercise_volume = 60;
                         break;
                 }
-                //result.add(tiers[random_tier_index][random_exercise_index]);
                 Exercise exercise = new Exercise(tiers[random_tier_index][random_exercise_index],
                         selected_exercise_volume, random_tier_index + 1);
                 exerciseProgramList.add(exercise);
                 tmp_total_volume = tmp_total_volume - selected_exercise_volume;
             }
         }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void shuffleProgram(){
+        exerciseProgramList.clear();
+        createProgram(tiers);
     }
 }

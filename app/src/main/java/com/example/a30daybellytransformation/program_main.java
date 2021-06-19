@@ -16,7 +16,7 @@ import java.lang.reflect.Type;
 public class program_main extends AppCompatActivity {
     User user;
     RecyclerView recyclerView;
-
+    MyAdapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +25,25 @@ public class program_main extends AppCompatActivity {
 
         loadData();
 
+
+
+
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
-        MyAdapter myAdapter = new MyAdapter(this, user);
+        myAdapter = new MyAdapter(this, user);
         recyclerView.setAdapter(myAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loadData();
+        if(recyclerView !=null){
+            recyclerView.setAdapter(new MyAdapter(program_main.this, user));
+            myAdapter.notifyDataSetChanged();
+        }
     }
 
     private void loadData()
