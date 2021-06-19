@@ -37,7 +37,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
         selected_day_adapter selectedDayAdapter = new selected_day_adapter(this, user, day_of_month);
         overall_counter = findViewById(R.id.overall_counter);
-        overall_counter.setText();
+        overall_counter.setText("");
         recyclerView.setAdapter(selectedDayAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
