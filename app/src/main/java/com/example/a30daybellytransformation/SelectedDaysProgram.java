@@ -51,15 +51,13 @@ public class SelectedDaysProgram extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                btn_start.setClickable(false);
+                btn_start.setVisibility(View.GONE);
 
                 final int exercisePosition = 0;
                 recursiveStartProgram(exercisePosition);
-                btn_start.setClickable(true);
-
-
             }
         });
+        btn_start.setVisibility(View.VISIBLE);
     }
 
     public void recursiveStartProgram(final int exercisePosition)
@@ -83,14 +81,8 @@ public class SelectedDaysProgram extends AppCompatActivity {
                 {
                     Toast.makeText(SelectedDaysProgram.this, "DAY" + day_of_month+ " completed", Toast.LENGTH_SHORT).show();
                 }
-
-
-
             }
         }.start();
-
-
-
     }
 
     public void shuffle(){
