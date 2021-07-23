@@ -1,17 +1,21 @@
 package com.example.a30daybellytransformation;
 
 import android.content.Context;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adapter.MyViewHolder> {
     User user;
@@ -19,6 +23,8 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     int day_of_month;
     Exercise[] days_exercises;
     Timer t;
+    int counter = 0;
+
 
     public selected_day_adapter(Context ct, User user, int day_of_month)
     {
@@ -32,6 +38,39 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         }
 
     }
+
+    public void startCountdown(final MyViewHolder holder, final int exercisePosition, final ProgressBar pb)
+    {
+            pb.setMax(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration());
+            holder.timer =  new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                pb.setProgress(counter);
+                counter++;
+            }
+
+            @Override
+            public void onFinish() {
+                counter = 0;
+                cancel();
+                /*if(exercisePosition + 1 < user.month.get(day_of_month - 1).exerciseProgramList.size())
+                startCountdown(holder, exercisePosition+1, pb);*/
+            }
+        }.start();
+        /*final Timer t = new Timer();
+        TimerTask tt = new TimerTask() {
+            @Override
+            public void run() {
+                counter++;
+                pb.setProgress(counter);
+
+                if(counter == 1000)
+                    t.cancel();
+            }
+        };
+        t.schedule(tt, 0, 100);*/
+    }
+
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -42,10 +81,19 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
         holder.text_exerciseName.setText("" + days_exercises[position].getName());
         holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
         holder.sb_seekBarExercise.setVisibility(View.GONE);
+
+
+        holder.mainExerciseLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startCountdown(holder, position, holder.pb_duration);
+            }
+        });
+
     }
 
 
@@ -58,12 +106,18 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
         TextView text_exerciseName, text_exerciseDuration;
         SeekBar sb_seekBarExercise;
+        ProgressBar pb_duration;
+        CountDownTimer timer;
+        ConstraintLayout mainExerciseLayout;
+
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text_exerciseName = itemView.findViewById(R.id.tv_exerciseName);
             text_exerciseDuration = itemView.findViewById(R.id.tv_exerciseDuration);
             sb_seekBarExercise = itemView.findViewById((R.id.seekBarExercise));
+            pb_duration = itemView.findViewById(R.id.pb_duration);
+            mainExerciseLayout = itemView.findViewById(R.id.mainExerciseLayout);
 
         }
     }

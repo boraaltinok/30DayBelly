@@ -9,30 +9,36 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/exercise_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/btn_start"
+        android:layout_height="552dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        tools:layout_editor_absoluteY="1dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageButton"
+        app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:layout_marginTop="80dp"
-        android:id="@+id/btn_start"
-        android:layout_width="121dp"
-        android:layout_height="70dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintBottom_toTopOf="@id/exercise_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/btn_shuffle"
+        android:layout_width="105dp"
+        android:layout_height="78dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginLeft="56dp"
+        android:layout_marginTop="56dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageButton3"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/start_icon" />
+        app:srcCompat="@android:drawable/stat_notify_sync_noanim" />
 
-    <EditText
-        android:id="@+id/overall_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="0:30"
-        tools:layout_editor_absoluteX="296dp"
-        tools:layout_editor_absoluteY="238dp" />
+    <ImageButton
+        android:id="@+id/btn_start"
+        android:layout_width="83dp"
+        android:layout_height="78dp"
+        android:layout_marginEnd="72dp"
+        android:layout_marginRight="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/exercise_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/ic_media_play" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
