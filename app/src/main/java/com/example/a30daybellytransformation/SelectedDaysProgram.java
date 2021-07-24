@@ -55,14 +55,18 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
                 final int exercisePosition = 0;
                 recursiveStartProgram(exercisePosition);
+                btn_start.setVisibility(View.VISIBLE);
+
             }
         });
-        btn_start.setVisibility(View.VISIBLE);
+
     }
 
     public void recursiveStartProgram(final int exercisePosition)
     {
-        recyclerView.findViewHolderForAdapterPosition(exercisePosition).itemView.performClick();
+        //recyclerView.findViewHolderForAdapterPosition(exercisePosition).itemView.performClick();
+        selected_day_adapter.MyViewHolder holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
+        selectedDayAdapter.startCountdown(holder, exercisePosition, holder.pb_duration);
         new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000
                 , 1000) {
             @Override

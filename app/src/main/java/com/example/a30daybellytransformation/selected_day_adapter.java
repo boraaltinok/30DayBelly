@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -88,14 +89,6 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
         holder.sb_seekBarExercise.setVisibility(View.GONE);
 
-
-        holder.mainExerciseLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startCountdown(holder, position, holder.pb_duration);
-            }
-        });
-
     }
 
 
@@ -109,6 +102,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         TextView text_exerciseName, text_exerciseDuration;
         SeekBar sb_seekBarExercise;
         ProgressBar pb_duration;
+        Button btn_magic;
         CountDownTimer timer;
         int timer_counter = 0;
         ConstraintLayout mainExerciseLayout;
