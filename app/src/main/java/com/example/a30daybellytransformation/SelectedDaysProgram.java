@@ -55,7 +55,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
                 final int exercisePosition = 0;
                 recursiveStartProgram(exercisePosition);
-                btn_start.setVisibility(View.VISIBLE);
+                
 
             }
         });
