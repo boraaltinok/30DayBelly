@@ -13,6 +13,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -24,12 +25,14 @@ import java.util.ArrayList;
 public class SelectedDaysProgram extends AppCompatActivity {
     User user;
     RecyclerView recyclerView;
-    ImageButton btn_shuffle, btn_start;
+    ImageButton btn_shuffle, btn_start, btn_pause;
     String exerciseName;
     int exerciseDuration, day_of_month;
     selected_day_adapter selectedDayAdapter;
     ArrayList<Integer> exerciseImages = new ArrayList<Integer>();
     int numberOfExercisesToday;
+
+    boolean workoutStopped = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,11 +51,14 @@ public class SelectedDaysProgram extends AppCompatActivity {
         btn_shuffle = (ImageButton)findViewById(R.id.btn_shuffle);
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
         btn_start = (ImageButton)findViewById(R.id.btn_start);
+        btn_pause = (ImageButton)findViewById(R.id.btn_pause);
         selectedDayAdapter = new selected_day_adapter(this, user, day_of_month);
         recyclerView.setAdapter(selectedDayAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         shuffle();
         startTodaysWorkout();
+
+        btn_pause.setVisibility(View.GONE);
 
     }
 
@@ -62,31 +68,56 @@ public class SelectedDaysProgram extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 btn_start.setVisibility(View.GONE);
+                btn_pause.setVisibility(View.VISIBLE);
 
                 final int exercisePosition = 0;
                 recursiveStartProgram(exercisePosition);
 
 
             }
+
         });
 
+
+    }
+
+    public boolean pauseTodaysWorkout(int pausedExercisePosition, final ProgressBar holdersProgressBar)
+    {
+        workoutStopped = false;
+        btn_pause.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_pause.setVisibility(View.GONE);
+                workoutStopped = true;
+                Toast.makeText(SelectedDaysProgram.this, "workout stopped", Toast.LENGTH_SHORT).show();
+                btn_start.setVisibility(View.VISIBLE);
+            }
+        });
+        return workoutStopped;
     }
 
     public void recursiveStartProgram(final int exercisePosition)
     {
         //recyclerView.findViewHolderForAdapterPosition(exercisePosition).itemView.performClick();
-        selected_day_adapter.MyViewHolder holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
-        selectedDayAdapter.startCountdown(holder, exercisePosition, holder.pb_duration);
+        final selected_day_adapter.MyViewHolder holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
+        selectedDayAdapter.startCountdown(holder, exercisePosition, holder.pb_duration, workoutStopped);
+        //pauseTodaysWorkout to check if user clicked pause button
+        pauseTodaysWorkout(exercisePosition, holder.pb_duration);
         new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000
                 , 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                if(workoutStopped)
+                {
+                    holder.timer.cancel();
+                }
 
             }
             @Override
             public void onFinish() {
                 cancel();
-                if(exercisePosition < user.month.get(day_of_month-1).exerciseProgramList.size()-1)
+                if(exercisePosition < user.month.get(day_of_month-1).exerciseProgramList.size()-1
+                &&workoutStopped == false)
                 {
                     int newParameter = exercisePosition+1;
                     recursiveStartProgram(newParameter);
@@ -94,6 +125,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
                 else
                 {
                     Toast.makeText(SelectedDaysProgram.this, "DAY" + day_of_month+ " completed", Toast.LENGTH_SHORT).show();
+                    btn_start.setVisibility(View.VISIBLE);
                 }
             }
         }.start();
