@@ -17,7 +17,7 @@ public class Day {
     String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
     String[] tier2 = {"crunches", "planks", "russian twists", "leg raises", "side planks"};
     String[] tier3 = {"plank jack", "high to low plank", "high knees", "jumping lunge", "jump rope"};
-    String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extenisons", "jumping jacks"};
+    String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extensions", "jumping jacks"};
     String[][] tiers = new String[4][5];
 
     ArrayList<Exercise> exerciseProgramList = new ArrayList<Exercise>();

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class SelectedDaysProgram extends AppCompatActivity {
     User user;
@@ -27,6 +28,8 @@ public class SelectedDaysProgram extends AppCompatActivity {
     String exerciseName;
     int exerciseDuration, day_of_month;
     selected_day_adapter selectedDayAdapter;
+    ArrayList<Integer> exerciseImages = new ArrayList<Integer>();
+    int numberOfExercisesToday;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,13 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
         loadData();
         day_of_month = getIntent().getIntExtra("day of month", 1);
+        numberOfExercisesToday = user.month.get(day_of_month - 1).exerciseProgramList.size();
+        for ( int i = 0; i < numberOfExercisesToday; i++){
+            String item = (user.month.get(day_of_month - 1).exerciseProgramList.get(i).nameOfImage);
+            int resID = getResources().getIdentifier(item , "drawable", getPackageName());
+            exerciseImages.add(resID);
+
+        }
         btn_shuffle = (ImageButton)findViewById(R.id.btn_shuffle);
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
         btn_start = (ImageButton)findViewById(R.id.btn_start);
@@ -55,7 +65,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
                 final int exercisePosition = 0;
                 recursiveStartProgram(exercisePosition);
-                
+
 
             }
         });
