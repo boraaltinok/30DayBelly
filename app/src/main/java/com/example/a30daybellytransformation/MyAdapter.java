@@ -2,9 +2,11 @@ package com.example.a30daybellytransformation;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,7 +19,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     User user;
     Context context;
     int[] days;
-
+    int[] imagesOfDays;
 
     public MyAdapter(Context ct, User user)
     {
@@ -43,9 +45,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
 
-        holder.text_day_of_month.setText(days[position] + ". DAY");
-        holder.text_exerciseCount.setText(user.month.get(position).exerciseProgramList.size() + "exercises");
-
+        holder.text_day_of_month.setText( "DAY " + days[position]);
+        holder.text_exerciseCount.setText(user.month.get(position).exerciseProgramList.size() + " exercises");
+        holder.img_day.setImageResource(R.drawable.banana_img);
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,11 +68,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView text_day_of_month, text_exerciseCount;
+        ImageView img_day;
         ConstraintLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text_day_of_month = itemView.findViewById(R.id.tv_day);
             text_exerciseCount = itemView.findViewById(R.id.tv_exerciseCount);
+            img_day = itemView.findViewById(R.id.day_icon);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }

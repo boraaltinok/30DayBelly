@@ -11,6 +11,7 @@
         android:id="@+id/exercise_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@android:color/darker_gray"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -18,6 +19,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayoutForButtons"
+        android:background="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/exercise_recycler_view"
@@ -35,7 +37,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintHorizontal_bias="0.25"
             app:srcCompat="@android:drawable/stat_notify_sync_noanim" />
 
         <ImageButton
@@ -46,7 +48,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintHorizontal_bias="0.75"
             app:srcCompat="@android:drawable/ic_media_play" />
 
         <ImageButton
@@ -55,7 +57,7 @@
             android:layout_height="60dp"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.85"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:srcCompat="@android:drawable/ic_media_pause"

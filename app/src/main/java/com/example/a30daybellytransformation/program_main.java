@@ -17,6 +17,7 @@ public class program_main extends AppCompatActivity {
     User user;
     RecyclerView recyclerView;
     MyAdapter myAdapter;
+    int[] imagesOfDays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +25,7 @@ public class program_main extends AppCompatActivity {
         setContentView(R.layout.activity_program_main);
 
         loadData();
-
-
-
-
+        //imagesOfDays = { R.drawable}
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
         myAdapter = new MyAdapter(this, user);
