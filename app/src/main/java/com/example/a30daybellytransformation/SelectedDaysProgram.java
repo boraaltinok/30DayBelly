@@ -72,6 +72,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
     public boolean pauseTodaysWorkout(int pausedExercisePosition, final ProgressBar holdersProgressBar)
     {
         workoutStopped = false;
+        Toast.makeText(this, "workout stopped " + workoutStopped, Toast.LENGTH_SHORT).show();
         btn_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

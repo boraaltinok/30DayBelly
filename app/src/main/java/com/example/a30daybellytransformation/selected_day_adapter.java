@@ -42,19 +42,23 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
     public void startCountdown(final MyViewHolder holder, final int exercisePosition, final ProgressBar pb, final boolean workoutStopped)
     {
+
+
             pb.setMax(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration());
             holder.timer =  new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+
                 pb.setProgress(holder.timer_counter);
                 holder.timer_counter++;
             }
 
             @Override
             public void onFinish() {
-                counter = 0;
-                holder.timer_counter = 0;
                 cancel();
+                //counter = 0;
+                //holder.timer_counter = 0;
+                //cancel();
                 /*if(exercisePosition + 1 < user.month.get(day_of_month - 1).exerciseProgramList.size())
                 startCountdown(holder, exercisePosition+1, pb);*/
             }
