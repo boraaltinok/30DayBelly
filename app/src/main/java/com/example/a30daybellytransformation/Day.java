@@ -17,12 +17,10 @@ public class Day {
     String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
     String[] tier2 = {"crunches", "planks", "russian twists", "leg raises", "side planks"};
     String[] tier3 = {"plank jack", "high to low plank", "high knees", "jumping lunge", "jump rope"};
-    String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extenisons", "jumping jacks"};
+    String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extensions", "jumping jacks"};
     String[][] tiers = new String[4][5];
 
     //array to store tier1 exercises images or animations in order EX: {R.drawable.img_jumpSquats, R.drawable.img_squats ...}
-    int[] tier1Images = {R.drawable.img_jump_squat, R.drawable.img_squat, R.drawable.img_vertical_jump, R.drawable.img_mountain_climbers
-    ,R.drawable.img_burpees};
 
     ArrayList<Exercise> exerciseProgramList = new ArrayList<Exercise>();
 

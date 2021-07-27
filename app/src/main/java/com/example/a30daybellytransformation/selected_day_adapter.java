@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,12 +25,17 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     Context context;
     int day_of_month;
     Exercise[] days_exercises;
+    int[] todaysExerciseImages;
     Timer t;
     int counter = 0;
 
 
-    public selected_day_adapter(Context ct, User user, int day_of_month)
+    public selected_day_adapter(Context ct, User user, int day_of_month, ArrayList<Integer> list)
     {
+        int sizeOfArray = list.size();
+        todaysExerciseImages = new int[ sizeOfArray];
+        for ( int i = 0; i < sizeOfArray; i++)
+            todaysExerciseImages[i] = list.get(i);
         this.user = user;
         this.context = ct;
         this.day_of_month = day_of_month;
@@ -88,6 +95,8 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int position) {
+        holder.exerciseIcon.setImageResource(todaysExerciseImages[position]);
+
         holder.text_exerciseName.setText("" + days_exercises[position].getName());
         holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
         holder.sb_seekBarExercise.setVisibility(View.GONE);
@@ -107,12 +116,14 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         ProgressBar pb_duration;
         Button btn_magic;
         CountDownTimer timer;
+        ImageView exerciseIcon;
         int timer_counter = 0;
         ConstraintLayout mainExerciseLayout;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            exerciseIcon = itemView.findViewById(R.id.exerciseIcon);
             text_exerciseName = itemView.findViewById(R.id.tv_exerciseName);
             text_exerciseDuration = itemView.findViewById(R.id.tv_exerciseDuration);
             sb_seekBarExercise = itemView.findViewById((R.id.seekBarExercise));

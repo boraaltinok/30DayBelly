@@ -4,6 +4,7 @@ public class Exercise {
 
     //properties
     String name;
+    String nameOfImage;
     int duration = 0;
     int volume;
     int tier;
@@ -12,6 +13,8 @@ public class Exercise {
     public Exercise(String name, int volume, int tier)
     {
         this.name = name;
+        nameOfImage = name;
+        nameOfImage = nameOfImage.replaceAll(" ", "_").toLowerCase();
         this.volume = volume;
         this.tier = tier;
         switch (tier){
