@@ -12,6 +12,7 @@ public class Day {
     int day_of_month;
     int default_volume;
     int selected_exercise_volume;
+    boolean dayDone;
 
 
     String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
@@ -23,7 +24,6 @@ public class Day {
     //array to store tier1 exercises images or animations in order EX: {R.drawable.img_jumpSquats, R.drawable.img_squats ...}
 
     ArrayList<Exercise> exerciseProgramList = new ArrayList<Exercise>();
-
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Day(int day_of_month, int default_volume) {
@@ -37,6 +37,7 @@ public class Day {
         this.default_volume = default_volume;
         calculateTotalVolume(day_of_month); // calculates todays volume depending on day_of_month
         createProgram(tiers);
+        dayDone = false;
 
 
 

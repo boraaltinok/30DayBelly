@@ -8,6 +8,7 @@ public class Exercise {
     int duration = 0;
     int volume;
     int tier;
+    long leftDuration; // variable to detect the pauses in countdowns and pauses the countdown, it will change
 
 
     public Exercise(String name, int volume, int tier)
@@ -31,6 +32,20 @@ public class Exercise {
                 duration = 40;
                 break;
         }
+        leftDuration = duration * 1000;
+    }
+
+    public void resetLeftDuration()
+    {
+        leftDuration = duration;
+    }
+    public long getLeftDuration()
+    {
+        return leftDuration;
+    }
+    public void setLeftDuration(long leftDur)
+    {
+        leftDuration = leftDur;
     }
 
 

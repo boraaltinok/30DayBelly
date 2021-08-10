@@ -5,15 +5,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -26,11 +33,20 @@ public class SelectedDaysProgram extends AppCompatActivity {
     User user;
     RecyclerView recyclerView;
     ImageButton btn_shuffle, btn_start, btn_pause;
+    TextView shuffleCount;
     String exerciseName;
+    ImageView doneCheck, img_currentExercise;
     int exerciseDuration, day_of_month;
     selected_day_adapter selectedDayAdapter;
     ArrayList<Integer> exerciseImages = new ArrayList<Integer>();
     int numberOfExercisesToday;
+    long currentExerciseDuration;
+
+    CountDownTimer timer;
+    int exercisePosition = 0;
+
+    selected_day_adapter.MyViewHolder holder;
+
 
     boolean workoutStopped = false;
 
@@ -46,14 +62,31 @@ public class SelectedDaysProgram extends AppCompatActivity {
         recyclerView = (RecyclerView)findViewById(R.id.exercise_recycler_view);
         btn_start = (ImageButton)findViewById(R.id.btn_start);
         btn_pause = (ImageButton)findViewById(R.id.btn_pause);
+        shuffleCount = (TextView)findViewById(R.id.tv_shuffleCount);
+        doneCheck = (ImageView)findViewById(R.id.img_dayDone);
+        img_currentExercise=(ImageView)findViewById(R.id.img_currentExercise);
         selectedDayAdapter = new selected_day_adapter(this, user, day_of_month, exerciseImages);
         recyclerView.setAdapter(selectedDayAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         shuffle();
         startTodaysWorkout();
-
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        recyclerView.setAnimation(animation);
         btn_pause.setVisibility(View.GONE);
+        doneCheck.setVisibility(View.GONE);
 
+        if(user.month.get(day_of_month - 1).dayDone == true)
+        {
+            doneCheck.setVisibility(View.VISIBLE);
+        }
+
+        shuffleCount.setText(user.getShuffles() + "");
+
+    }
+
+    public void updateShuffleCountText()
+    {
+        shuffleCount.setText(user.getShuffles() + "");
     }
 
     public void startTodaysWorkout()
@@ -63,22 +96,20 @@ public class SelectedDaysProgram extends AppCompatActivity {
             public void onClick(View v) {
                 btn_start.setVisibility(View.GONE);
                 btn_pause.setVisibility(View.VISIBLE);
-
-                final int exercisePosition = 0;
-                recursiveStartProgram(exercisePosition);
-
-
+                workoutStopped = false;
+                recursiveStartProgram();
             }
-
         });
-
-
     }
 
-    public boolean pauseTodaysWorkout(int pausedExercisePosition, final ProgressBar holdersProgressBar)
+    /*
+    *Function that detects the pause button click.
+    * If user cliks pause function sets the workoutStopped variable to true
+    * returns the value of workoutStopped
+     */
+    public boolean pauseTodaysWorkout()
     {
         workoutStopped = false;
-        Toast.makeText(this, "workout stopped " + workoutStopped, Toast.LENGTH_SHORT).show();
         btn_pause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,36 +122,116 @@ public class SelectedDaysProgram extends AppCompatActivity {
         return workoutStopped;
     }
 
-    public void recursiveStartProgram(final int exercisePosition)
+
+    /*
+    *Function that starts the workout.
+    * Finds the holder from adapter communicates with horizontal progress bar
+    * Starts the workout
+    * Has pause function in it to detect any pause clicks.
+    *
+     */
+
+    /*
+    onBackPressed
+    *Ask the user if they want to quit or continue if back press interupts workout
+     */
+    @Override
+    public void onBackPressed() {
+        // if day exercises are finished just do the default back press action
+        if(user.month.get(day_of_month - 1).dayDone)
+        {
+            super.onBackPressed();
+        }
+        //super.onBackPressed();
+        else {
+        /*
+        if workout is interupted with back press ask the user if they want to leave or continue
+         */
+            btn_pause.performClick();
+            AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
+            builder.setTitle("DO YOU WANT TO STOP THE WORKOUT");
+            builder.setIcon(android.R.drawable.ic_dialog_dialer);
+            builder.setMessage("Do you want to stop the workout :(?");
+            builder.setPositiveButton("Yes, i am tired!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(getApplicationContext(), program_main.class);
+                    startActivity(intent);
+                }
+            });
+            builder.setNegativeButton("No i am warrior! THAT WAS ACCIDENT!", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Toast.makeText(SelectedDaysProgram.this, "CONTINUES", Toast.LENGTH_SHORT).show();
+                    btn_start.performClick();
+                }
+            });
+            builder.show();
+        }
+
+    }
+
+    public void recursiveStartProgram()
     {
-        //recyclerView.findViewHolderForAdapterPosition(exercisePosition).itemView.performClick();
-        final selected_day_adapter.MyViewHolder holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
+        holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
         selectedDayAdapter.startCountdown(holder, exercisePosition, holder.pb_duration, workoutStopped);
-        //pauseTodaysWorkout to check if user clicked pause button
-        pauseTodaysWorkout(exercisePosition, holder.pb_duration);
-        new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000
+        pauseTodaysWorkout();//sets workoutStopped to true and arranges the button views
+        currentExerciseDuration = user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getLeftDuration();
+        img_currentExercise.setImageDrawable(holder.exerciseIcon.getDrawable());
+        timer = new CountDownTimer(currentExerciseDuration
                 , 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                if(millisUntilFinished < 1000) // detects if workout duration is over in next onTick if so changes the current finished to true
+                {
+                    holder.currentExerciseFinished = true;
+                }
+                /*
+                *if it stops cancels the countdown in this class
+                * Cancels adapters(current exercise card) countdown
+                 */
                 if(workoutStopped)
                 {
+                    currentExerciseDuration = millisUntilFinished;
+                    user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).setLeftDuration(currentExerciseDuration);
+                    timer.cancel();
                     holder.timer.cancel();
                 }
-
             }
             @Override
             public void onFinish() {
                 cancel();
+
+                /*
+                *In order to start the new exercise conditions:
+                * exercisePosition should not exceed or match programlist size
+                * workoutStopped must be false(if it is true workout is paused at the moment)
+                * currentExerciseFinished == true otherwise program would not wait until the exercise is over to move to next exercise
+                 */
                 if(exercisePosition < user.month.get(day_of_month-1).exerciseProgramList.size()-1
-                &&workoutStopped == false)
+                &&workoutStopped == false && holder.currentExerciseFinished == true)
                 {
-                    int newParameter = exercisePosition+1;
-                    recursiveStartProgram(newParameter);
+                    exercisePosition++; // classes exercisePosition is updated, we will assign it to 0 when the workout is over.
+                    recursiveStartProgram(); // calls the next startCountdown() for next exercise
                 }
-                else
+                else if(exercisePosition == user.month.get(day_of_month -1).exerciseProgramList.size()-1)// else means our workout is over we will prompt the user and set the exercisePosition to 0 and arrange buttons visibilities
                 {
+                    Toast.makeText(SelectedDaysProgram.this, " "+"exercisePos : " + exercisePosition
+                            +"\nWorkout stopped" + workoutStopped + "\ncurrentExFinished" + holder.currentExerciseFinished, Toast.LENGTH_SHORT).show();
                     Toast.makeText(SelectedDaysProgram.this, "DAY" + day_of_month+ " completed", Toast.LENGTH_SHORT).show();
+                    user.month.get(day_of_month - 1).dayDone = true;
+                    saveData();
+                    loadData();
+                    exercisePosition = 0;
+                    btn_pause.setVisibility(View.GONE);
                     btn_start.setVisibility(View.VISIBLE);
+                    /*
+                    *setting each exercise's leftDuration to their duration
+                     */
+                    for(int i = 0; i <  user.month.get(day_of_month - 1).exerciseProgramList.size(); i++)
+                    {
+                        user.month.get(day_of_month - 1).exerciseProgramList.get(i).resetLeftDuration();
+                    }
                 }
             }
         }.start();
@@ -131,12 +242,44 @@ public class SelectedDaysProgram extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                user.month.get(day_of_month-1).shuffleProgram();
-                saveData();
-                loadData();
-                createImages();
-                recyclerView.setAdapter(new selected_day_adapter(SelectedDaysProgram.this, user, day_of_month, exerciseImages));
-                selectedDayAdapter.notifyDataSetChanged();
+                if(user.shuffles <= 0)
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
+                    builder.setTitle("NO SHUFFLES LEFT");
+                    builder.setIcon(android.R.drawable.ic_menu_add);
+                    builder.setMessage("Ups. You ran out of shuffles. Want to buy more shuffles and spice your workout program up?");
+                    builder.setPositiveButton("Yes, ı want varıety!", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(SelectedDaysProgram.this, "BOUGHT 2 SHUFFLES!", Toast.LENGTH_SHORT).show();
+                            user.setShuffles(user.shuffles + 2);
+                            updateShuffleCountText();
+                        }
+                    });
+                    builder.setNegativeButton("No, fuck me in the ass pleasee.", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Toast.makeText(SelectedDaysProgram.this, "DID NOT BUY", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    builder.show();
+                }
+                if(user.getShuffles()>0) {
+                    user.month.get(day_of_month-1).shuffleProgram();
+                    user.shuffles = user.shuffles - 1;
+                    updateShuffleCountText();
+                    saveData();
+                    loadData();
+                    createImages();
+                    exercisePosition = 0;
+                    if (timer != null) {
+                        timer.cancel();
+                    }
+                    btn_start.setVisibility(View.VISIBLE);
+                    btn_pause.setVisibility(View.GONE);
+                    recyclerView.setAdapter(new selected_day_adapter(SelectedDaysProgram.this, user, day_of_month, exerciseImages));
+                    selectedDayAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

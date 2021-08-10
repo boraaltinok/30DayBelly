@@ -15,6 +15,7 @@ public class User {
     int fitness_level; // 1 = low 2 = average 3 = high
     ArrayList<Day> month = new ArrayList<Day>();
     int default_volume;
+    int shuffles;
 
     public User()
     {
@@ -27,10 +28,11 @@ public class User {
         // TODO Auto-generated constructor stub
         this.name = name;
         this.fitness_level = fitness_level;
+        shuffles = 2;
 
         if(fitness_level == 1)
         {
-            default_volume = 200;
+            default_volume = 100;
             for(int i = 1; i < 31; i++)
             {
                 Day day = new Day(i, default_volume);
@@ -66,6 +68,15 @@ public class User {
         }
     }
 
+    public int getShuffles()
+    {
+        return shuffles;
+    }
+
+    public void setShuffles(int shuf)
+    {
+        shuffles = shuf;
+    }
     public String getName()
     {
         return this.name;

@@ -48,6 +48,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.text_day_of_month.setText( "DAY " + days[position]);
         holder.text_exerciseCount.setText(user.month.get(position).exerciseProgramList.size() + " exercises");
         holder.img_day.setImageResource(R.drawable.banana_img);
+        holder.img_done.setVisibility(View.GONE);
+        if(user.month.get(position).dayDone == true)
+        {
+            holder.img_done.setVisibility(View.VISIBLE);
+        }
         holder.mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,7 +60,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
                 intent.putExtra("exercise count", user.month.get(position).exerciseProgramList.size());
                 intent.putExtra("day of month", days[position]);
                 context.startActivity(intent);
-
             }
         });
 
@@ -68,13 +72,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView text_day_of_month, text_exerciseCount;
-        ImageView img_day;
+        ImageView img_day, img_done;
         ConstraintLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text_day_of_month = itemView.findViewById(R.id.tv_day);
             text_exerciseCount = itemView.findViewById(R.id.tv_exerciseCount);
             img_day = itemView.findViewById(R.id.day_icon);
+            img_done = itemView.findViewById(R.id.doneCheck);
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }

@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         et_programView = (TextView) findViewById(R.id.et_programView);
         btn_nextPage = (Button)findViewById(R.id.btn_nextPage);
 
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        et_name.setAnimation(animation);
+        et_fitnessLevel.setAnimation(animation);
         loadData();
         showProgram();
 

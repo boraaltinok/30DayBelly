@@ -52,36 +52,32 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
 
             pb.setMax(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration());
-            holder.timer =  new CountDownTimer(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration() * 1000, 1000) {
+            holder.currentExerciseDuration = user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getLeftDuration();
+            holder.timer =  new CountDownTimer(holder.currentExerciseDuration, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-
-                pb.setProgress(holder.timer_counter);
-                holder.timer_counter++;
+                if(holder.timer_counter == pb.getMax())
+                {
+                    holder.currentExerciseFinished = true;
+                }
+                if(!workoutStopped)
+                {
+                    pb.setProgress(holder.timer_counter);
+                    holder.timer_counter++;
+                }
+                else if(workoutStopped)
+                {
+                    holder.currentExerciseDuration = millisUntilFinished;
+                }
             }
 
             @Override
             public void onFinish() {
+                counter = 0;
+                holder.timer_counter = 0;
                 cancel();
-                //counter = 0;
-                //holder.timer_counter = 0;
-                //cancel();
-                /*if(exercisePosition + 1 < user.month.get(day_of_month - 1).exerciseProgramList.size())
-                startCountdown(holder, exercisePosition+1, pb);*/
             }
         }.start();
-        /*final Timer t = new Timer();
-        TimerTask tt = new TimerTask() {
-            @Override
-            public void run() {
-                counter++;
-                pb.setProgress(counter);
-
-                if(counter == 1000)
-                    t.cancel();
-            }
-        };
-        t.schedule(tt, 0, 100);*/
     }
 
     @NonNull
@@ -98,9 +94,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         holder.exerciseIcon.setImageResource(todaysExerciseImages[position]);
 
         holder.text_exerciseName.setText("" + days_exercises[position].getName());
-        holder.text_exerciseDuration.setText(""+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
-        holder.sb_seekBarExercise.setVisibility(View.GONE);
-
+        holder.text_exerciseDuration.setText("00:"+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
     }
 
 
@@ -112,13 +106,13 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         TextView text_exerciseName, text_exerciseDuration;
-        SeekBar sb_seekBarExercise;
         ProgressBar pb_duration;
-        Button btn_magic;
         CountDownTimer timer;
         ImageView exerciseIcon;
         int timer_counter = 0;
         ConstraintLayout mainExerciseLayout;
+        boolean currentExerciseFinished = false;
+        long currentExerciseDuration;
 
 
         public MyViewHolder(@NonNull View itemView) {
@@ -126,7 +120,6 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
             exerciseIcon = itemView.findViewById(R.id.exerciseIcon);
             text_exerciseName = itemView.findViewById(R.id.tv_exerciseName);
             text_exerciseDuration = itemView.findViewById(R.id.tv_exerciseDuration);
-            sb_seekBarExercise = itemView.findViewById((R.id.seekBarExercise));
             pb_duration = itemView.findViewById(R.id.pb_duration);
             mainExerciseLayout = itemView.findViewById(R.id.mainExerciseLayout);
 
