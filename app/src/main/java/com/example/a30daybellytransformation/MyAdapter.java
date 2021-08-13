@@ -47,6 +47,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
         holder.text_day_of_month.setText( "DAY " + days[position]);
         holder.text_exerciseCount.setText(user.month.get(position).exerciseProgramList.size() + " exercises");
+        int daysTotalDuration = 0;
+        for(int i = 0; i < user.month.get(position).exerciseProgramList.size(); i++)
+        {
+            daysTotalDuration = daysTotalDuration + user.month.get(position).exerciseProgramList.get(i).getDuration();
+        }
+        int minutes = daysTotalDuration / 60;
+        int seconds = daysTotalDuration - minutes * 60;
+
+        if(seconds < 10)
+        {
+            holder.text_duration.setText(minutes + ":0" + seconds);
+        }
+        else
+        {
+            holder.text_duration.setText(minutes+":"+seconds);
+        }
         holder.img_day.setImageResource(R.drawable.banana_img);
         holder.img_done.setVisibility(View.GONE);
         if(user.month.get(position).dayDone == true)
@@ -71,8 +87,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
-        TextView text_day_of_month, text_exerciseCount;
-        ImageView img_day, img_done;
+        TextView text_day_of_month, text_exerciseCount, text_duration;
+        ImageView img_day, img_done, img_duration;
         ConstraintLayout mainLayout;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -80,6 +96,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             text_exerciseCount = itemView.findViewById(R.id.tv_exerciseCount);
             img_day = itemView.findViewById(R.id.day_icon);
             img_done = itemView.findViewById(R.id.doneCheck);
+            img_duration = itemView.findViewById(R.id.img_duraiton);
+            text_duration = itemView.findViewById(R.id.txt_duration);
+
             mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }

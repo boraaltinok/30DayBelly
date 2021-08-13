@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -44,6 +47,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
     CountDownTimer timer;
     int exercisePosition = 0;
+    Dialog dialog, dialog_shf;
 
     selected_day_adapter.MyViewHolder holder;
 
@@ -65,6 +69,8 @@ public class SelectedDaysProgram extends AppCompatActivity {
         shuffleCount = (TextView)findViewById(R.id.tv_shuffleCount);
         doneCheck = (ImageView)findViewById(R.id.img_dayDone);
         img_currentExercise=(ImageView)findViewById(R.id.img_currentExercise);
+        dialog = new Dialog(this);
+        dialog_shf = new Dialog(this);
         selectedDayAdapter = new selected_day_adapter(this, user, day_of_month, exerciseImages);
         recyclerView.setAdapter(selectedDayAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -74,6 +80,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
         recyclerView.setAnimation(animation);
         btn_pause.setVisibility(View.GONE);
         doneCheck.setVisibility(View.GONE);
+
 
         if(user.month.get(day_of_month - 1).dayDone == true)
         {
@@ -148,7 +155,9 @@ public class SelectedDaysProgram extends AppCompatActivity {
         if workout is interupted with back press ask the user if they want to leave or continue
          */
             btn_pause.performClick();
-            AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
+
+            openQuitWorkoutDialog();
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
             builder.setTitle("DO YOU WANT TO STOP THE WORKOUT");
             builder.setIcon(android.R.drawable.ic_dialog_dialer);
             builder.setMessage("Do you want to stop the workout :(?");
@@ -166,7 +175,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
                     btn_start.performClick();
                 }
             });
-            builder.show();
+            builder.show();*/
         }
 
     }
@@ -244,6 +253,8 @@ public class SelectedDaysProgram extends AppCompatActivity {
             public void onClick(View v) {
                 if(user.shuffles <= 0)
                 {
+                    openShuffleDialog();
+                    /*
                     AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
                     builder.setTitle("NO SHUFFLES LEFT");
                     builder.setIcon(android.R.drawable.ic_menu_add);
@@ -263,6 +274,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
                         }
                     });
                     builder.show();
+                     */
                 }
                 if(user.getShuffles()>0) {
                     user.month.get(day_of_month-1).shuffleProgram();
@@ -282,6 +294,73 @@ public class SelectedDaysProgram extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void openQuitWorkoutDialog()
+    {
+        dialog.setContentView(R.layout.stop_layout_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ImageView imageViewClose = dialog.findViewById(R.id.img_close);
+        Button btn_continue = dialog.findViewById(R.id.btn_continue);
+        Button btn_quit = dialog.findViewById(R.id.btn_quit);
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btn_continue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                btn_start.performClick();
+                dialog.dismiss();
+
+            }
+        });
+
+        btn_quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), program_main.class);
+                startActivity(intent);
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
+    private void openShuffleDialog()
+    {
+        dialog.setContentView(R.layout.shuffle_layout_dialog);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        ImageView imageViewClose = dialog.findViewById(R.id.img_close);
+        Button btn_buy = dialog.findViewById(R.id.btn_buy);
+        Button btn_dontBuy = dialog.findViewById(R.id.btn_dontBuy);
+
+        imageViewClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        btn_buy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                user.setShuffles(user.shuffles + 2);
+                updateShuffleCountText();
+                dialog.dismiss();
+            }
+        });
+
+        btn_dontBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     private void createImages(){

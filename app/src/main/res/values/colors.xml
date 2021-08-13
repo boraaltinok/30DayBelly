@@ -8,4 +8,6 @@
     <color name="countdown_progress_color">#FF8E85</color>
     <color name="progress_background_color">#FDFCFC</color>
     <color name="progress_color">#E8E2E2</color>
+    <color name="icon_red_color">#EA3341</color>
+    <color name="opaque_background">#B5000000</color>
 </resources>
