@@ -95,6 +95,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
         holder.text_exerciseName.setText("" + days_exercises[position].getName());
         holder.text_exerciseDuration.setText("00:"+user.month.get(day_of_month-1).exerciseProgramList.get(position).getDuration());
+        holder.img_checked.setVisibility(View.GONE);
     }
 
 
@@ -108,7 +109,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
         TextView text_exerciseName, text_exerciseDuration;
         ProgressBar pb_duration;
         CountDownTimer timer;
-        ImageView exerciseIcon;
+        ImageView exerciseIcon, img_checked;
         int timer_counter = 0;
         ConstraintLayout mainExerciseLayout;
         boolean currentExerciseFinished = false;
@@ -121,6 +122,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
             text_exerciseName = itemView.findViewById(R.id.tv_exerciseName);
             text_exerciseDuration = itemView.findViewById(R.id.tv_exerciseDuration);
             pb_duration = itemView.findViewById(R.id.pb_duration);
+            img_checked = itemView.findViewById(R.id.img_checked);
             mainExerciseLayout = itemView.findViewById(R.id.mainExerciseLayout);
 
         }

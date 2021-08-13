@@ -13,6 +13,7 @@ public class Day {
     int default_volume;
     int selected_exercise_volume;
     boolean dayDone;
+    boolean didNotStarted;
 
 
     String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
@@ -38,6 +39,7 @@ public class Day {
         calculateTotalVolume(day_of_month); // calculates todays volume depending on day_of_month
         createProgram(tiers);
         dayDone = false;
+        didNotStarted = true;
 
 
 

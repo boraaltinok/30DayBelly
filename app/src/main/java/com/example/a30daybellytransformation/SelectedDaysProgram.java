@@ -81,6 +81,9 @@ public class SelectedDaysProgram extends AppCompatActivity {
         btn_pause.setVisibility(View.GONE);
         doneCheck.setVisibility(View.GONE);
 
+        user.month.get(day_of_month -1).didNotStarted = true;
+
+
 
         if(user.month.get(day_of_month - 1).dayDone == true)
         {
@@ -101,6 +104,9 @@ public class SelectedDaysProgram extends AppCompatActivity {
         btn_start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                user.month.get(day_of_month -1).didNotStarted = false;
+                saveData();
+                loadData();
                 btn_start.setVisibility(View.GONE);
                 btn_pause.setVisibility(View.VISIBLE);
                 workoutStopped = false;
@@ -145,7 +151,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         // if day exercises are finished just do the default back press action
-        if(user.month.get(day_of_month - 1).dayDone)
+        if(user.month.get(day_of_month - 1).dayDone == true || user.month.get(day_of_month -1).didNotStarted == true)
         {
             super.onBackPressed();
         }
@@ -191,6 +197,21 @@ public class SelectedDaysProgram extends AppCompatActivity {
                 , 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
+                int leftSeconds =  (int)(millisUntilFinished/ 1000);
+                if(leftSeconds < 10)
+                {
+                    holder.text_exerciseDuration.setText("00:0" + leftSeconds);
+                }
+                else
+                {
+                    holder.text_exerciseDuration.setText("00:"+leftSeconds);
+                }
+                if(leftSeconds == 0)
+                {
+                    showCheckedAnimation();
+                }
+
+
                 if(millisUntilFinished < 1000) // detects if workout duration is over in next onTick if so changes the current finished to true
                 {
                     holder.currentExerciseFinished = true;
@@ -350,6 +371,8 @@ public class SelectedDaysProgram extends AppCompatActivity {
             public void onClick(View v) {
                 user.setShuffles(user.shuffles + 2);
                 updateShuffleCountText();
+                saveData();
+                loadData();
                 dialog.dismiss();
             }
         });
@@ -405,6 +428,13 @@ public class SelectedDaysProgram extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    private void showCheckedAnimation()
+    {
+        holder.img_checked.setVisibility(View.VISIBLE);
+        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+        holder.img_checked.setAnimation(animation);
     }
 
     private void getData()
