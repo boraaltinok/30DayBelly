@@ -53,6 +53,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
 
 
     boolean workoutStopped = false;
+    long tmpMillisUntilFinished;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +129,11 @@ public class SelectedDaysProgram extends AppCompatActivity {
             public void onClick(View v) {
                 btn_pause.setVisibility(View.GONE);
                 workoutStopped = true;
+
+                currentExerciseDuration = tmpMillisUntilFinished;
+                user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).setLeftDuration(currentExerciseDuration);
+                timer.cancel();
+                holder.timer.cancel();
                 Toast.makeText(SelectedDaysProgram.this, "workout stopped", Toast.LENGTH_SHORT).show();
                 btn_start.setVisibility(View.VISIBLE);
             }
@@ -198,6 +204,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
             @Override
             public void onTick(long millisUntilFinished) {
                 int leftSeconds =  (int)(millisUntilFinished/ 1000);
+                tmpMillisUntilFinished = millisUntilFinished;
                 if(leftSeconds < 10)
                 {
                     holder.text_exerciseDuration.setText("00:0" + leftSeconds);
