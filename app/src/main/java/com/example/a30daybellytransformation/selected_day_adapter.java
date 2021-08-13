@@ -49,8 +49,6 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
 
     public void startCountdown(final MyViewHolder holder, final int exercisePosition, final ProgressBar pb, final boolean workoutStopped)
     {
-
-
             pb.setMax(user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getDuration()* 10 * 2);// to avoid lag
             holder.currentExerciseDuration = user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getLeftDuration();
             holder.timer =  new CountDownTimer(holder.currentExerciseDuration, 50) {
