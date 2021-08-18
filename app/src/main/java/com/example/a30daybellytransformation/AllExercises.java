@@ -19,53 +19,49 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-public class program_main extends AppCompatActivity {
-    User user;
-    RecyclerView recyclerView;
-    MyAdapter myAdapter;
-    int[] imagesOfDays;
-
+public class AllExercises extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    RecyclerView recyclerView;
+    all_exercises_adapter all_ex_adapter;
+    User user;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_main);
-
+        setContentView(R.layout.activity_all_exercises);
         loadData();
-        //imagesOfDays = { R.drawable}
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+
+        recyclerView = (RecyclerView)findViewById(R.id.recyclerView_allExercises);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.program);
+        bottomNavigationView.setSelectedItemId(R.id.all_exercises);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.all_exercises:
-                        startActivity(new Intent(getApplicationContext(), AllExercises.class));
-                        overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                     case R.id.profile:
                         startActivity(new Intent(getApplicationContext(), Profile.class));
                         overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                     case R.id.program:
+                        startActivity(new Intent(getApplicationContext(), program_main.class));
+                        overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                 }
-
                 return false;
             }
         });
 
-        myAdapter = new MyAdapter(this, user);
-        recyclerView.setAdapter(myAdapter);
+        all_ex_adapter = new all_exercises_adapter(this, user);
+        recyclerView.setAdapter(all_ex_adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
         recyclerView.setAnimation(animation);
-
     }
 
     @Override
@@ -73,10 +69,29 @@ public class program_main extends AppCompatActivity {
         super.onStart();
         loadData();
         if(recyclerView !=null){
-            recyclerView.setAdapter(new MyAdapter(program_main.this, user));
-            myAdapter.notifyDataSetChanged();
+            recyclerView.setAdapter(new all_exercises_adapter(AllExercises.this, user));
+            all_ex_adapter.notifyDataSetChanged();
         }
     }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), program_main.class));
+        overridePendingTransition(0, 0); // to make smooth transition
+
+    }
+
+
+    private void saveData()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("User", json);
+        editor.apply();
+    }
+
 
     private void loadData()
     {
@@ -93,28 +108,11 @@ public class program_main extends AppCompatActivity {
         }
     }
 
-    private void saveData()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("User", json);
-        editor.apply();
-    }
-
     private void clearData()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-    }
-    @Override
-    public void onBackPressed() {
-        /*super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(), program_main.class));
-        overridePendingTransition(0, 0); // to make smooth transition*/
-
     }
 }

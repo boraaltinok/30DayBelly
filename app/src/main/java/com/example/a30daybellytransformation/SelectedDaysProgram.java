@@ -196,9 +196,11 @@ public class SelectedDaysProgram extends AppCompatActivity {
     {
         holder = (selected_day_adapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(exercisePosition);
         selectedDayAdapter.startCountdown(holder, exercisePosition, holder.pb_duration, workoutStopped);
+
         pauseTodaysWorkout();//sets workoutStopped to true and arranges the button views
         currentExerciseDuration = user.month.get(day_of_month - 1).exerciseProgramList.get(exercisePosition).getLeftDuration();
         img_currentExercise.setImageDrawable(holder.exerciseIcon.getDrawable());
+
         timer = new CountDownTimer(currentExerciseDuration
                 , 1000) {
             @Override
@@ -237,6 +239,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
+                Toast.makeText(SelectedDaysProgram.this, ""+holder.pb_duration.getProgress(), Toast.LENGTH_SHORT).show();
                 cancel();
 
                 /*

@@ -2,42 +2,47 @@ package com.example.a30daybellytransformation;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 
-public class program_main extends AppCompatActivity {
-    User user;
-    RecyclerView recyclerView;
-    MyAdapter myAdapter;
-    int[] imagesOfDays;
-
+public class Profile extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
+    ImageView profilePicture;
+    FloatingActionButton fab_buy_shuffles;
+    CollapsingToolbarLayout ctbl;
+    TextView userName;
+    User user;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_program_main);
-
+        setContentView(R.layout.activity_profile);
         loadData();
-        //imagesOfDays = { R.drawable}
-        recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
 
+        userName = findViewById(R.id.txt_userName);
+        profilePicture = findViewById(R.id.profile_img);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.program);
+        bottomNavigationView.setSelectedItemId(R.id.profile);
+        ctbl = findViewById(R.id.collapsing_toolbar);
+        fab_buy_shuffles = findViewById(R.id.fab_buy_shuffles);
+
+        userName.setText((user.getName()).toUpperCase()+ "");
+        ctbl.setTitle((user.getName()).toUpperCase()+ "");
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -48,10 +53,10 @@ public class program_main extends AppCompatActivity {
                         overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                     case R.id.profile:
-                        startActivity(new Intent(getApplicationContext(), Profile.class));
-                        overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                     case R.id.program:
+                        startActivity(new Intent(getApplicationContext(), program_main.class));
+                        overridePendingTransition(0, 0); // to make smooth transition
                         return true;
                 }
 
@@ -59,24 +64,26 @@ public class program_main extends AppCompatActivity {
             }
         });
 
-        myAdapter = new MyAdapter(this, user);
-        recyclerView.setAdapter(myAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
-        recyclerView.setAnimation(animation);
 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        loadData();
-        if(recyclerView !=null){
-            recyclerView.setAdapter(new MyAdapter(program_main.this, user));
-            myAdapter.notifyDataSetChanged();
-        }
+    public void onBackPressed() {
+        //super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), program_main.class));
+        overridePendingTransition(0, 0); // to make smooth transition
+
     }
+    private void saveData()
+    {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+        editor.putString("User", json);
+        editor.apply();
+    }
+
 
     private void loadData()
     {
@@ -93,28 +100,11 @@ public class program_main extends AppCompatActivity {
         }
     }
 
-    private void saveData()
-    {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(user);
-        editor.putString("User", json);
-        editor.apply();
-    }
-
     private void clearData()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
-    }
-    @Override
-    public void onBackPressed() {
-        /*super.onBackPressed();
-        startActivity(new Intent(getApplicationContext(), program_main.class));
-        overridePendingTransition(0, 0); // to make smooth transition*/
-
     }
 }

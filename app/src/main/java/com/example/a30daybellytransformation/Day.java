@@ -16,15 +16,44 @@ public class Day {
     boolean didNotStarted;
 
 
-    String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
-    String[] tier2 = {"crunches", "planks", "russian twists", "leg raises", "side planks"};
-    String[] tier3 = {"plank jack", "high to low plank", "high knees", "jumping lunge", "jump rope"};
-    String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extensions", "jumping jacks"};
-    String[][] tiers = new String[4][5];
+    public String[] tier1 = {"jump squats", "squats", "vertical jumps", "mountain climbers", "burpees" };
+    public String[] tier2 = {"crunches", "planks", "russian twists", "leg raises", "side planks"};
+    public String[] tier3 = {"plank jack", "high to low plank", "high knees", "jumping lunge", "jump rope"};
+    public String[] tier4 = {"skaters", "walkout", "hip thrusts", "back extensions", "jumping jacks"};
+    public String[][] tiers = new String[4][5];
+
+    public ArrayList<String> allExercisesList = new ArrayList<String>();
+
+
 
     //array to store tier1 exercises images or animations in order EX: {R.drawable.img_jumpSquats, R.drawable.img_squats ...}
 
-    ArrayList<Exercise> exerciseProgramList = new ArrayList<Exercise>();
+    public ArrayList<Exercise> exerciseProgramList = new ArrayList<Exercise>();
+
+    public Day()
+    {
+        tiers[0] = tier1;
+        tiers[1] = tier2;
+        tiers[2] = tier3;
+        tiers[3] = tier4;
+
+        for(int i = 0; i < tier1.length; i++)
+        {
+            allExercisesList.add(tier1[i] +"");
+        }
+        for(int i = 0; i < tier2.length; i++)
+        {
+            allExercisesList.add(tier2[i]+"");
+        }
+        for(int i = 0; i < tier3.length; i++)
+        {
+            allExercisesList.add(tier3[i]+"");
+        }
+        for(int i = 0; i < tier4.length; i++)
+        {
+            allExercisesList.add(tier4[i]+"");
+        }
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public Day(int day_of_month, int default_volume) {
@@ -34,6 +63,24 @@ public class Day {
         tiers[1] = tier2;
         tiers[2] = tier3;
         tiers[3] = tier4;
+
+        for(int i = 0; i < tier1.length; i++)
+        {
+            allExercisesList.add(tier1[i]);
+        }
+        for(int i = 0; i < tier2.length; i++)
+        {
+            allExercisesList.add(tier2[i]);
+        }
+        for(int i = 0; i < tier3.length; i++)
+        {
+            allExercisesList.add(tier3[i]);
+        }
+        for(int i = 0; i < tier4.length; i++)
+        {
+            allExercisesList.add(tier4[i]);
+        }
+
         this.day_of_month = day_of_month;
         this.default_volume = default_volume;
         calculateTotalVolume(day_of_month); // calculates todays volume depending on day_of_month

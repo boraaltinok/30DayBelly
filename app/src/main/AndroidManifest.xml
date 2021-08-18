@@ -9,8 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".createUser"
-            android:theme="@style/AppTheme.SlidrActivityTheme"></activity>
+        <activity android:name=".Profile"></activity>
+        <activity android:name=".AllExercises" />
+        <activity
+            android:name=".createUser"
+            android:theme="@style/AppTheme.SlidrActivityTheme" />
         <activity android:name=".SelectedDaysProgram" />
         <activity android:name=".program_main" />
         <activity android:name=".MainActivity">
