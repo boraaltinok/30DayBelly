@@ -3,14 +3,28 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
+
+        <item name="android:textViewStyle">@style/MontserratTextViewStyle</item>
+        <item name="android:buttonStyle">@style/MontserratButtonStyle</item>
+
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name = "android:windowBackground">@drawable/bg_light</item>
+
     </style>
 
     <style name="AppTheme.SlidrActivityTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
+    <style name="MontserratTextViewStyle" parent="android:Widget.TextView">
+        <item name= "android:fontFamily">@font/montserrat</item>
+    </style>
+
+    <style name="MontserratButtonStyle" parent="android:Widget.Holo.Button">
+        <item name= "android:fontFamily">@font/montserrat</item>
     </style>
 
 </resources>
