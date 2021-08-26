@@ -12,16 +12,17 @@
         <activity android:name=".Profile"></activity>
         <activity android:name=".AllExercises" />
         <activity
-            android:name=".createUser"
-            android:theme="@style/AppTheme.SlidrActivityTheme" />
-        <activity android:name=".SelectedDaysProgram" />
-        <activity android:name=".program_main" />
-        <activity android:name=".MainActivity">
+            android:name=".createUser">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".SelectedDaysProgram" />
+        <activity android:name=".program_main" />
+        <activity android:name=".MainActivity">
+
         </activity>
 
         <receiver
