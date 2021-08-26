@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.a30daybellytransformation"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -38,4 +38,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.19'
 }

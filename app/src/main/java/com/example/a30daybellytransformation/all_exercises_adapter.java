@@ -63,7 +63,7 @@ public class all_exercises_adapter extends RecyclerView.Adapter<all_exercises_ad
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.text_exerciseName.setText(day.allExercisesList.get(position));
-        holder.img_exercise.setBackgroundResource(R.drawable.banana_img);
+        holder.img_exercise.setBackgroundResource(R.drawable.exercises_gif);
         holder.txt_info.setText("exercises detailed information");
         holder.expandableLayout.setVisibility(View.GONE);
         addExtendableInfo(holder);
