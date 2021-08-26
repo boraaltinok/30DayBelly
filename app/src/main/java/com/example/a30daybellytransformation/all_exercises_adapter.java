@@ -17,17 +17,24 @@ import com.example.a30daybellytransformation.Day;
 import com.example.a30daybellytransformation.R;
 import com.example.a30daybellytransformation.User;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class all_exercises_adapter extends RecyclerView.Adapter<all_exercises_adapter.MyViewHolder> {
 
     Context context;
     User user;
     Day day = new Day();
+    Map<String,String> allExercisesMap;
 
 
-    public all_exercises_adapter(Context ct, User user)
+
+    public all_exercises_adapter(Context ct, User user, Map<String, String> allExercisesMap)
     {
         this.user = user;
         this.context = ct;
+        this.allExercisesMap = new HashMap<>();
+        this.allExercisesMap = allExercisesMap;
     }
 
     public void addExtendableInfo(final MyViewHolder holder)
@@ -63,8 +70,11 @@ public class all_exercises_adapter extends RecyclerView.Adapter<all_exercises_ad
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.text_exerciseName.setText(day.allExercisesList.get(position));
-        holder.img_exercise.setBackgroundResource(R.drawable.exercises_gif);
-        holder.txt_info.setText("exercises detailed information");
+
+        holder.img_exercise.setImageResource(getImage(position));
+        String exerciseUnderscore = day.allExercisesList.get(position).replaceAll(" ", "_").toLowerCase();
+        String info = allExercisesMap.get(exerciseUnderscore);
+        holder.txt_info.setText(info);
         holder.expandableLayout.setVisibility(View.GONE);
         addExtendableInfo(holder);
 
@@ -92,5 +102,13 @@ public class all_exercises_adapter extends RecyclerView.Adapter<all_exercises_ad
             expandableLayout = itemView.findViewById(R.id.expandalbe_layout);
         }
     }
+
+    private int getImage(int pos){
+            String item = day.allExercisesList.get(pos);
+            item = item.replaceAll(" ", "_").toLowerCase();
+            int resID = context.getResources().getIdentifier(item, "drawable", context.getPackageName());
+            return resID;
+    }
+
 }
 

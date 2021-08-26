@@ -8,6 +8,7 @@ public class Exercise {
     int duration = 0;
     int volume;
     int tier;
+    String exerciseInfo;
     long leftDuration; // variable to detect the pauses in countdowns and pauses the countdown, it will change
 
 
@@ -16,6 +17,7 @@ public class Exercise {
         this.name = name;
         nameOfImage = name;
         nameOfImage = nameOfImage.replaceAll(" ", "_").toLowerCase();
+        exerciseInfo = name + " is an exercise that works the body.";
         this.volume = volume;
         this.tier = tier;
         switch (tier){

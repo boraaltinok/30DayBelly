@@ -1,10 +1,18 @@
 package com.example.a30daybellytransformation;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Day {
     //properties
@@ -53,6 +61,7 @@ public class Day {
         {
             allExercisesList.add(tier4[i]+"");
         }
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -197,4 +206,6 @@ public class Day {
         exerciseProgramList.clear();
         createProgram(tiers);
     }
+
+
 }

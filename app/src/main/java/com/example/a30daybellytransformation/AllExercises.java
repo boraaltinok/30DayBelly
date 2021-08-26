@@ -7,7 +7,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.AssetFileDescriptor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,7 +19,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class AllExercises extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -25,14 +35,15 @@ public class AllExercises extends AppCompatActivity {
     all_exercises_adapter all_ex_adapter;
     User user;
 
-
+    public Map<String, String> allExercisesMap;
+    public static ArrayList<Integer> exerciseImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_exercises);
         loadData();
-
+        putMap();
         recyclerView = (RecyclerView)findViewById(R.id.recyclerView_allExercises);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -57,7 +68,8 @@ public class AllExercises extends AppCompatActivity {
             }
         });
 
-        all_ex_adapter = new all_exercises_adapter(this, user);
+
+        all_ex_adapter = new all_exercises_adapter(this, user, allExercisesMap);
         recyclerView.setAdapter(all_ex_adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
@@ -69,7 +81,7 @@ public class AllExercises extends AppCompatActivity {
         super.onStart();
         loadData();
         if(recyclerView !=null){
-            recyclerView.setAdapter(new all_exercises_adapter(AllExercises.this, user));
+            recyclerView.setAdapter(new all_exercises_adapter(AllExercises.this, user,allExercisesMap));
             all_ex_adapter.notifyDataSetChanged();
         }
     }
@@ -115,4 +127,31 @@ public class AllExercises extends AppCompatActivity {
         editor.clear();
         editor.apply();
     }
+
+    public void putMap(){
+
+        allExercisesMap = new HashMap<>();
+        allExercisesMap.put("","ERROR.");
+        Scanner sc = null;
+        String key = "";
+        String value = "";
+
+        try{
+            BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("list_of_exercises.txt")));
+            String line;
+            Toast.makeText(this, "CRAZY!", Toast.LENGTH_SHORT).show();
+            sc = new Scanner(reader);
+            sc.useDelimiter(":");
+            while (sc.hasNextLine()){
+                key = sc.next();
+                sc.skip(sc.delimiter());
+                value = sc.nextLine();
+                allExercisesMap.put(key,value);
+            }
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
 }

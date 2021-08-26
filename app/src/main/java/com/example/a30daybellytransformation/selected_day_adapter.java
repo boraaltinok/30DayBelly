@@ -27,6 +27,7 @@ public class selected_day_adapter extends RecyclerView.Adapter<selected_day_adap
     Exercise[] days_exercises;
     int[] todaysExerciseImages;
     Timer t;
+
     int counter = 0;
 
 
