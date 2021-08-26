@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +26,9 @@ public class Profile extends AppCompatActivity {
     ImageView profilePicture;
     FloatingActionButton fab_buy_shuffles;
     CollapsingToolbarLayout ctbl;
-    TextView userName;
+    TextView userName, txt_fitnessLevel;
     User user;
+    ImageButton btn_back;
 
 
     @Override
@@ -35,14 +38,16 @@ public class Profile extends AppCompatActivity {
         loadData();
 
         userName = findViewById(R.id.txt_userName);
+        txt_fitnessLevel = findViewById(R.id.txt_fitnessLevel);
         profilePicture = findViewById(R.id.profile_img);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
         ctbl = findViewById(R.id.collapsing_toolbar);
         fab_buy_shuffles = findViewById(R.id.fab_buy_shuffles);
 
-        userName.setText((user.getName()).toUpperCase()+ "");
-        ctbl.setTitle((user.getName()).toUpperCase()+ "");
+        fillProfile();
+
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -63,8 +68,6 @@ public class Profile extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     @Override
@@ -85,7 +88,7 @@ public class Profile extends AppCompatActivity {
     }
 
 
-    private void loadData()
+    public void loadData()
     {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
@@ -106,5 +109,24 @@ public class Profile extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+    }
+
+    private void fillProfile()
+    {
+
+        userName.setText((user.getName()).toUpperCase()+ "");
+        ctbl.setTitle((user.getName()).toUpperCase()+ "");
+
+        switch(user.fitness_level){
+            case 1:
+                txt_fitnessLevel.append(" BEGINNER");
+                break;
+            case 2:
+                txt_fitnessLevel.append(" INTERMEDIATE");
+                break;
+            case 3:
+                txt_fitnessLevel.append(" ADVANCED");
+                break;
+        }
     }
 }

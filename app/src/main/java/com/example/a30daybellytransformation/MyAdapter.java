@@ -63,7 +63,18 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         {
             holder.text_duration.setText(minutes+":"+seconds);
         }
-        holder.img_day.setImageResource(R.drawable.banana_img);
+
+        holder.img_day.setImageResource(R.drawable.lock_gif);
+
+        if(position == 0)
+        {
+            holder.img_day.setVisibility(View.GONE);
+        }
+        else if(position <= 1 && user.month.get(position - 1).dayDone == true)
+        {
+            holder.img_day.setVisibility(View.GONE);
+        }
+
         holder.img_done.setVisibility(View.GONE);
         if(user.month.get(position).dayDone == true)
         {
