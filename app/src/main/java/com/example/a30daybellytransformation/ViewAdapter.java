@@ -99,7 +99,7 @@ class ViewAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    user = new User(text_name.getText().toString(), level_picker.getValue());
+                    user = new User(text_name.getText().toString(), level_picker.getValue(), height_picker.getValue(), Double.parseDouble(text_weight.getText().toString()));
 
                     saveData();
                     Intent intent = new Intent(context.getApplicationContext(), program_main.class);

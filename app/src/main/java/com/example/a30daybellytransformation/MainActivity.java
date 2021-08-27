@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
-                user = new User(et_name.getText().toString(), Integer.parseInt(et_fitnessLevel.getText().toString()));
+                //user = new User(et_name.getText().toString(), Integer.parseInt(et_fitnessLevel.getText().toString()));
                 monthExercises = user.month;
                 saveData();
                 showProgram();

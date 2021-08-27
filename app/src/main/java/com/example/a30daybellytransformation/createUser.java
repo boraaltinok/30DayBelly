@@ -40,6 +40,7 @@ public class createUser extends AppCompatActivity {
         setContentView(R.layout.activity_create_user);
         //initialzation
         loadData();
+
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);//destroys the current screens data after selected number of slides
         dot1 = findViewById(R.id.dot1);
@@ -64,6 +65,11 @@ public class createUser extends AppCompatActivity {
         if(user == null)
         {
             user = new User();
+        }
+        else if(user !=null)
+        {
+            Intent in = new Intent(createUser.this, program_main.class);
+            startActivity(in);
         }
     }
 

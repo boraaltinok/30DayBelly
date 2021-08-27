@@ -16,6 +16,8 @@ public class User {
     ArrayList<Day> month = new ArrayList<Day>();
     int default_volume;
     int shuffles;
+    double height;
+    double weight;
 
     public User()
     {
@@ -24,10 +26,12 @@ public class User {
 
     }
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public User(String name, int fitness_level) {
+    public User(String name, int fitness_level, double height, double weight) {
         // TODO Auto-generated constructor stub
         this.name = name;
         this.fitness_level = fitness_level;
+        this.height = height;
+        this.weight = weight;
         shuffles = 2;
 
         if(fitness_level == 1)
@@ -38,7 +42,6 @@ public class User {
                 Day day = new Day(i, default_volume);
 
                 month.add(day);
-                //month.get(i).printTodaysExercises();
             }
 
         }
@@ -50,7 +53,6 @@ public class User {
                 Day day = new Day(i, default_volume);
 
                 month.add(day);
-                //month.get(i).printTodaysExercises();
             }
 
         }
@@ -62,7 +64,6 @@ public class User {
                 Day day = new Day(i, default_volume);
 
                 month.add(day);
-                //month.get(i).printTodaysExercises();
             }
 
         }
