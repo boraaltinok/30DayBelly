@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +27,8 @@ class ViewAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     User user = null;
-    TextView text_name, text_fitness_level;
+    TextView text_name, text_fitness_level, text_weight;
+    NumberPicker level_picker, height_picker;
 
     ViewAdapter(Context context)
     {
@@ -57,9 +59,35 @@ class ViewAdapter extends PagerAdapter {
         else if(position == 1)
         {
             view = layoutInflater.inflate(R.layout.get_fitness_level, null);
-            text_fitness_level = view.findViewById(R.id.text_fitness_level);
+            level_picker = view.findViewById(R.id.level_picker);
+            level_picker.setMinValue(1);
+            level_picker.setMaxValue(3);
+
+
             ViewPager viewPager = (ViewPager) container;
             viewPager.addView(view, 0);
+        }
+        else if(position == 2)
+        {
+            view = layoutInflater.inflate(R.layout.get_height, null);
+            height_picker = view.findViewById(R.id.height_picker);
+            height_picker.setMinValue(135);
+            height_picker.setMaxValue(210);
+
+
+            ViewPager viewPager = (ViewPager) container;
+            viewPager.addView(view, 0);
+        }
+
+        else if(position ==3)
+        {
+            view = layoutInflater.inflate(R.layout.get_weight, null);
+            text_weight = view.findViewById(R.id.text_weight);
+
+            ViewPager viewPager = (ViewPager) container;
+            viewPager.addView(view, 0);
+
+
         }
         else if(position == 4)
         {
@@ -70,7 +98,9 @@ class ViewAdapter extends PagerAdapter {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void onClick(View v) {
-                    user = new User(text_name.getText().toString(), Integer.parseInt(text_fitness_level.getText().toString()));
+
+                    user = new User(text_name.getText().toString(), level_picker.getValue());
+
                     saveData();
                     Intent intent = new Intent(context.getApplicationContext(), program_main.class);
                     context.startActivity(intent);

@@ -50,7 +50,6 @@ public class createUser extends AppCompatActivity {
 
         Button btn_createProgram = viewPager.findViewById(R.id.btn_createProgram);
         text_name = viewPager.findViewById(R.id.txt_name);
-        text_fitness_level = viewPager.findViewById(R.id.text_fitness_level);
 
     }
 
