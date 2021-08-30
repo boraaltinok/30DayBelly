@@ -3,13 +3,19 @@ package com.example.a30daybellytransformation;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.Image;
 import android.os.Build;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,8 +33,11 @@ class ViewAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     User user = null;
-    TextView text_name, text_fitness_level, text_weight;
-    NumberPicker level_picker, height_picker;
+    TextView text_name, text_fitness_level, text_weight, text_levelStatus;
+    NumberPicker height_picker;
+    SeekBar sb_fitnessLevel;
+    ImageView emoji1, emoji2, emoji3;
+
 
     ViewAdapter(Context context)
     {
@@ -58,11 +67,90 @@ class ViewAdapter extends PagerAdapter {
         }
         else if(position == 1)
         {
+            final Animation expandIn = AnimationUtils.loadAnimation(this.context, R.anim.expand_in);
+            final Animation collapseIn = AnimationUtils.loadAnimation(this.context, R.anim.collapse_in);
             view = layoutInflater.inflate(R.layout.get_fitness_level, null);
-            level_picker = view.findViewById(R.id.level_picker);
-            level_picker.setMinValue(1);
-            level_picker.setMaxValue(3);
+            sb_fitnessLevel = view.findViewById(R.id.sb_fitnessLevel);
+            text_levelStatus = view.findViewById(R.id.tv_levelStatus);
+            emoji1 = view.findViewById(R.id.ic_emoji1);
+            emoji2 = view.findViewById(R.id.ic_emoji2);
+            emoji3 = view.findViewById(R.id.ic_emoji3);
+            sb_fitnessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                int i = 0;
+                int level = 1;
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
+                    i = progress;
+                    if ( i < 33){
+
+                        text_levelStatus.setText("I am a beginner");
+                    }
+
+                    else if ( i >= 33 && i < 70){
+
+                        level = 2;
+
+
+                    }
+
+                    else{
+                        level = 3;
+                        text_levelStatus.setText("I am advanced");
+                    }
+
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    if ( i < 33){
+                        level = 1;
+                        text_levelStatus.setText("I am a beginner");
+                        emoji1.setImageResource(R.drawable.sad_emoji);
+                        emoji1.startAnimation(expandIn);
+                        emoji2.startAnimation(collapseIn);
+                        emoji3.startAnimation(collapseIn);
+                        emoji2.setImageResource(R.drawable.blank);
+                        emoji2.setBackgroundColor(Color.TRANSPARENT);
+                        emoji3.setImageResource(R.drawable.blank);
+                        emoji3.setBackgroundColor(Color.TRANSPARENT);
+                    }
+
+                    else if ( i >= 33 && i < 70){
+
+                        level = 2;
+                        text_levelStatus.setText("I am intermediate");
+                        emoji2.setImageResource(R.drawable.heart_emoji);
+                        emoji2.startAnimation(expandIn);
+                        emoji1.startAnimation(collapseIn);
+                        emoji3.startAnimation(collapseIn);
+                        emoji1.setImageResource(R.drawable.blank);
+                        emoji1.setBackgroundColor(Color.TRANSPARENT);
+                        emoji3.setImageResource(R.drawable.blank);
+                        emoji3.setBackgroundColor(Color.TRANSPARENT);
+
+                    }
+
+                    else{
+                        level = 3;
+                        text_levelStatus.setText("I am advanced");
+                        emoji3.setImageResource(R.drawable.money_emoji);
+                        emoji3.startAnimation(expandIn);
+                        emoji1.startAnimation(collapseIn);
+                        emoji2.startAnimation(collapseIn);
+                        emoji1.setImageResource(R.drawable.blank);
+                        emoji1.setBackgroundColor(Color.TRANSPARENT);
+                        emoji2.setImageResource(R.drawable.blank);
+                        emoji2.setBackgroundColor(Color.TRANSPARENT);
+                    }
+                }
+            });
 
             ViewPager viewPager = (ViewPager) container;
             viewPager.addView(view, 0);
@@ -99,7 +187,7 @@ class ViewAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
 
-                    user = new User(text_name.getText().toString(), level_picker.getValue(), height_picker.getValue(), Double.parseDouble(text_weight.getText().toString()));
+                    user = new User(text_name.getText().toString(), getLevelFromProgress(sb_fitnessLevel.getProgress()), height_picker.getValue(), Double.parseDouble(text_weight.getText().toString()));
 
                     saveData();
                     Intent intent = new Intent(context.getApplicationContext(), program_main.class);
@@ -155,5 +243,17 @@ class ViewAdapter extends PagerAdapter {
         editor.apply();
     }
 
+    private int getLevelFromProgress( int progress){
+        if ( progress < 33){
+            return 1;
+        }
+
+        else if ( progress >= 33 && progress < 70){
+            return 2;
+        }
+
+        else
+            return 3;
+    }
 
 }
