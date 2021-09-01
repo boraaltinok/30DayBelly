@@ -75,6 +75,11 @@ class ViewAdapter extends PagerAdapter {
             emoji1 = view.findViewById(R.id.ic_emoji1);
             emoji2 = view.findViewById(R.id.ic_emoji2);
             emoji3 = view.findViewById(R.id.ic_emoji3);
+            sb_fitnessLevel.setProgress(50);
+            emoji1.setImageResource(R.drawable.blank);
+            emoji1.setBackgroundColor(Color.TRANSPARENT);
+            emoji3.setImageResource(R.drawable.blank);
+            emoji3.setBackgroundColor(Color.TRANSPARENT);
             sb_fitnessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 int i = 0;
                 int level = 1;
@@ -90,6 +95,7 @@ class ViewAdapter extends PagerAdapter {
                     else if ( i >= 33 && i < 70){
 
                         level = 2;
+                        text_levelStatus.setText("I am advanced");
 
 
                     }

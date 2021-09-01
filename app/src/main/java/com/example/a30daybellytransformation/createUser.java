@@ -62,7 +62,7 @@ public class createUser extends AppCompatActivity {
         Type type = new TypeToken<User>() {}.getType();
         user = gson.fromJson(json, type);
 
-        if(user == null)
+       /* if(user == null)
         {
             user = new User();
         }
@@ -70,7 +70,7 @@ public class createUser extends AppCompatActivity {
         {
             Intent in = new Intent(createUser.this, program_main.class);
             startActivity(in);
-        }
+        }*/
     }
 
     private void saveData()
