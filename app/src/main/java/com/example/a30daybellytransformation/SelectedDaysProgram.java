@@ -239,7 +239,6 @@ public class SelectedDaysProgram extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                Toast.makeText(SelectedDaysProgram.this, ""+holder.pb_duration.getProgress(), Toast.LENGTH_SHORT).show();
                 cancel();
 
                 /*
@@ -256,6 +255,7 @@ public class SelectedDaysProgram extends AppCompatActivity {
                 }
                 else if(exercisePosition == user.month.get(day_of_month -1).exerciseProgramList.size()-1)// else means our workout is over we will prompt the user and set the exercisePosition to 0 and arrange buttons visibilities
                 {
+                    user.setPoints(user.getPoints() + 100);
                     Toast.makeText(SelectedDaysProgram.this, " "+"exercisePos : " + exercisePosition
                             +"\nWorkout stopped" + workoutStopped + "\ncurrentExFinished" + holder.currentExerciseFinished, Toast.LENGTH_SHORT).show();
                     Toast.makeText(SelectedDaysProgram.this, "DAY" + day_of_month+ " completed", Toast.LENGTH_SHORT).show();

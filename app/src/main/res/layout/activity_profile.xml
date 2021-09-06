@@ -58,48 +58,137 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/profile_img"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:paddingLeft="25dp"
-                android:src="@drawable/female_profile_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/txt_userName"
-                android:layout_width="wrap_content"
+            
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingRight="10dp"
-                android:text="Name"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                android:visibility="visible"
-                app:layout_constraintBottom_toTopOf="@+id/textView2"
-                app:layout_constraintStart_toEndOf="@+id/profile_img"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:padding="20dp"
+                android:orientation="vertical">
+                
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Full Name"
+                    android:textColorHint="#000000"
+                    android:layout_marginBottom="10dp"
+                    android:theme="@style/AppTheme.Picker">
 
-            <TextView
-                android:id="@+id/txt_fitnessLevel"
-                android:layout_width="0dp"
-                android:layout_height="37dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="16dp"
-                android:gravity="center|left"
-                android:text="FITNESS LEVEL:"
-                android:textColor="#000000"
-                android:textSize="18dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/profile_img"
-                app:layout_constraintTop_toBottomOf="@+id/txt_userName" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000000"
+                        android:id="@+id/txt_name"
+                        android:drawableLeft="@drawable/female_profile_icon"
+                        android:drawablePadding="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Fitness Level"
+                    android:textColorHint="#000000"
+                    app:boxStrokeColor="#000000"
+                    app:boxBackgroundColor="#000000"
+                    android:layout_marginBottom="10dp"
+                    android:theme="@style/AppTheme.Picker">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#000000"
+                        android:hint="Waist (initial)"
+                        android:layout_marginBottom="10dp"
+                        android:theme="@style/AppTheme.Picker">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_initialwaist"
+                            android:textColor="#000000"
+                            android:drawableLeft="@drawable/waist_icon"
+                            android:drawablePadding="10dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColorHint="#000000"
+                        android:hint="Waist (GOAL)"
+                        android:layout_marginBottom="10dp"
+                        android:theme="@style/AppTheme.Picker">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/txt_goalwaist"
+                            android:textColor="#000000"
+                            android:drawableLeft="@drawable/waist_icon"
+                            android:drawablePadding="10dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_fitnessLevel1"
+                        android:textColor="#000000"
+                        android:drawableLeft="@drawable/fitnesslevel_icon"
+                        android:drawablePadding="10dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:textColorHint="#000000"
+                    android:layout_height="wrap_content"
+                    android:hint="Height"
+                    android:layout_marginBottom="10dp"
+                    android:theme="@style/AppTheme.Picker">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_height"
+                        android:editable="false"
+                        android:textColor="#000000"
+                        android:drawableLeft="@drawable/height_icon"
+                        android:drawablePadding="10dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000"
+                    android:hint="Weight (Initial)"
+                    android:layout_marginBottom="10dp"
+                    android:theme="@style/AppTheme.Picker">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_initialweight"
+                        android:editable="false"
+                        android:textColor="#000000"
+                        android:drawableLeft="@drawable/weight_icon"
+                        android:drawablePadding="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColorHint="#000000"
+                    android:hint="Weight (GOAL)"
+                    android:layout_marginBottom="10dp"
+                    android:theme="@style/AppTheme.Picker">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/txt_goalweight"
+                        android:editable="false"
+                        android:textColor="#000000"
+                        android:drawableLeft="@drawable/weight_icon"
+                        android:drawablePadding="10dp"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -110,6 +199,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
+        android:backgroundTint="#facf5a"
+        android:baselineAlignBottom="false"
+        android:clickable="true"
+        android:src="@drawable/icon_shuffle_energy"
+        app:fabSize="normal"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="end|bottom" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/edit_profile"
+        android:layout_width="106dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="100dp"
         android:backgroundTint="#facf5a"
         android:baselineAlignBottom="false"
         android:clickable="true"

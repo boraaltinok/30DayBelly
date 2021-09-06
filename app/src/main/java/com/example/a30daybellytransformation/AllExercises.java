@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 public class AllExercises extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
@@ -139,7 +140,6 @@ public class AllExercises extends AppCompatActivity {
         try{
             BufferedReader reader = new BufferedReader(new InputStreamReader(getAssets().open("list_of_exercises.txt")));
             String line;
-            Toast.makeText(this, "CRAZY!", Toast.LENGTH_SHORT).show();
             sc = new Scanner(reader);
             sc.useDelimiter(":");
             while (sc.hasNextLine()){

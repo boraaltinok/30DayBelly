@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Build;
+import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,6 +63,10 @@ class ViewAdapter extends PagerAdapter {
         {
             view = layoutInflater.inflate(R.layout.get_name, null);
             text_name = view.findViewById(R.id.txt_name);
+            if(TextUtils.isEmpty(text_name.getText().toString())) {
+                text_name.setError("Your message");
+                //return;
+            }
             ViewPager viewPager = (ViewPager) container;
             viewPager.addView(view, 0);
         }

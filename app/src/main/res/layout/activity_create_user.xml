@@ -9,7 +9,7 @@
     tools:context=".createUser">
     <androidx.viewpager.widget.ViewPager
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="600dp"
         android:id="@+id/view_pager"/>
     
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator

@@ -18,6 +18,7 @@ public class User {
     int shuffles;
     double height;
     double weight;
+    int points;
 
     public User()
     {
@@ -33,6 +34,7 @@ public class User {
         this.height = height;
         this.weight = weight;
         shuffles = 2;
+        points = 0;
 
         if(fitness_level == 1)
         {
@@ -87,6 +89,34 @@ public class User {
     {
         this.name = name;
     }
+
+    public void setHeight(double height)
+    {
+        this.height = height;
+    }
+    public double getHeight()
+    {
+        return this.height;
+    }
+
+    public void setWeight(double weight)
+    {
+        this.weight = weight;
+    }
+    public double getWeight()
+    {
+        return this.height;
+    }
+
+    public void setPoints(int po)
+    {
+        this.points = po;
+    }
+    public int getPoints()
+    {
+        return this.points;
+    }
+
 
 
 }

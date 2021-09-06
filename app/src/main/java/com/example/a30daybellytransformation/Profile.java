@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -23,12 +24,11 @@ import java.lang.reflect.Type;
 
 public class Profile extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
-    ImageView profilePicture;
     FloatingActionButton fab_buy_shuffles;
     CollapsingToolbarLayout ctbl;
-    TextView userName, txt_fitnessLevel;
     User user;
     ImageButton btn_back;
+    TextInputEditText txt_name, txt_fitnesslevel, txt_height, txt_weight;
 
 
     @Override
@@ -37,13 +37,15 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         loadData();
 
-        userName = findViewById(R.id.txt_userName);
-        txt_fitnessLevel = findViewById(R.id.txt_fitnessLevel);
-        profilePicture = findViewById(R.id.profile_img);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.profile);
         ctbl = findViewById(R.id.collapsing_toolbar);
         fab_buy_shuffles = findViewById(R.id.fab_buy_shuffles);
+
+        txt_name = findViewById(R.id.txt_name);
+        txt_fitnesslevel = findViewById(R.id.txt_fitnessLevel1);
+        txt_height = findViewById(R.id.txt_height);
+        txt_weight = findViewById(R.id.txt_initialweight);
 
         fillProfile();
 
@@ -113,19 +115,23 @@ public class Profile extends AppCompatActivity {
 
     private void fillProfile()
     {
-
-        userName.setText((user.getName()).toUpperCase()+ "");
         ctbl.setTitle((user.getName()).toUpperCase()+ "");
+
+        txt_name.setText(user.getName());
+        txt_height.setText(user.getHeight() + "");
+        txt_weight.setText(user.getWeight() + "");
+
+
 
         switch(user.fitness_level){
             case 1:
-                txt_fitnessLevel.append(" BEGINNER");
+                txt_fitnesslevel.append(" BEGINNER");
                 break;
             case 2:
-                txt_fitnessLevel.append(" INTERMEDIATE");
+                txt_fitnesslevel.append(" INTERMEDIATE");
                 break;
             case 3:
-                txt_fitnessLevel.append(" ADVANCED");
+                txt_fitnesslevel.append(" ADVANCED");
                 break;
         }
     }

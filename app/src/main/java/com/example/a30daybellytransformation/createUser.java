@@ -68,8 +68,8 @@ public class createUser extends AppCompatActivity {
         }
         else if(user !=null)
         {
-            Intent in = new Intent(createUser.this, program_main.class);
-            startActivity(in);
+            //Intent in = new Intent(createUser.this, program_main.class);
+            //startActivity(in);
         }
     }
 

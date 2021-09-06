@@ -1,5 +1,5 @@
-jump_squats:Jump squats are awesome for your body.
-squats:Do more squats if you want bigger legs.
+jump_squats: Explosive movement for lower body.\ PRIMARY MUSCLE: QUADS, GLUTES\ SECONDARY MUSCLES: ABS, HAMSTRINGS, CALVES
+squats:One of the best time tested lower body exercise as known as "KING OF THE EXERCISES" PRIMARY MUSCLES: QUADS, GLUTES SECONDARY MUSCLES: ABS, HAMSTRINGS, CALVES.
 vertical_jumps:Vertical jumps are great for your body.
 mountain_climbers:Mountain climbers are amazing.
 burpees:Why do burpees?
