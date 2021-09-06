@@ -83,29 +83,31 @@ class ViewAdapter extends PagerAdapter {
             sb_fitnessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 int i = 0;
                 int level = 1;
+
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                     i = progress;
-                    if ( i < 33){
+                    if (i < 33) {
 
                         text_levelStatus.setText("I am a beginner");
-                    }
 
-                    else if ( i >= 33 && i < 70){
+
+                    }
+                    else if (i >= 33 && i < 70) {
 
                         level = 2;
-                        text_levelStatus.setText("I am advanced");
+                        text_levelStatus.setText("I am intermediate");
 
 
                     }
-
-                    else{
+                    else {
                         level = 3;
                         text_levelStatus.setText("I am advanced");
                     }
-
                 }
+
+
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
