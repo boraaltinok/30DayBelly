@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +20,12 @@ import com.google.gson.reflect.TypeToken;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+
+//TODO Font: Euclid
+//TODO Loading Page
+//TODO Motivation Array
+//TODO Streak
+// TODO Videolar çekilecek ve DB'ye bağlanıp egzersizin başında yüklenecek
 public class MainActivity extends AppCompatActivity {
     //decleration
     EditText et_name;
@@ -95,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showProgram()
     {
-        if(user.getName() == "default_name" || user == null)
+        if(user.getName().equals("default_name") || user == null)
         {
             Toast.makeText(this, "NO PROGRAM TO SHOW", Toast.LENGTH_SHORT).show();
             return;
