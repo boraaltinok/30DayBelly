@@ -88,80 +88,72 @@ class ViewAdapter extends PagerAdapter {
             sb_fitnessLevel.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 int i = 0;
                 int level = 1;
+                int checkpoint = 50;
 
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
                     i = progress;
                     if (i < 33) {
-
+                        if (checkpoint >= 33){
+                            emoji1.setImageResource(R.drawable.sad_emoji);
+                            emoji1.startAnimation(expandIn);
+                            emoji2.startAnimation(collapseIn);
+                            emoji3.startAnimation(collapseIn);
+                            emoji2.setImageResource(R.drawable.blank);
+                            emoji2.setBackgroundColor(Color.TRANSPARENT);
+                            emoji3.setImageResource(R.drawable.blank);
+                            emoji3.setBackgroundColor(Color.TRANSPARENT);
+                            checkpoint = 32;
+                        }
                         text_levelStatus.setText("I am a beginner");
-
-
                     }
                     else if (i >= 33 && i < 70) {
-
                         level = 2;
                         text_levelStatus.setText("I am intermediate");
 
-
+                        if (checkpoint < 33 || checkpoint >= 70){
+                            emoji2.setImageResource(R.drawable.heart_emoji);
+                            emoji2.startAnimation(expandIn);
+                            emoji1.startAnimation(collapseIn);
+                            emoji3.startAnimation(collapseIn);
+                            emoji1.setImageResource(R.drawable.blank);
+                            emoji1.setBackgroundColor(Color.TRANSPARENT);
+                            emoji3.setImageResource(R.drawable.blank);
+                            emoji3.setBackgroundColor(Color.TRANSPARENT);
+                            checkpoint = 55;
+                        }
                     }
                     else {
+                        if (checkpoint < 70 ){
+                            emoji3.setImageResource(R.drawable.money_emoji);
+                            emoji3.startAnimation(expandIn);
+                            emoji1.startAnimation(collapseIn);
+                            emoji2.startAnimation(collapseIn);
+                            emoji1.setImageResource(R.drawable.blank);
+                            emoji1.setBackgroundColor(Color.TRANSPARENT);
+                            emoji2.setImageResource(R.drawable.blank);
+                            emoji2.setBackgroundColor(Color.TRANSPARENT);
+                            checkpoint = 80;
+                        }
                         level = 3;
                         text_levelStatus.setText("I am advanced");
                     }
+
+
                 }
 
 
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-
+                    checkpoint = i;
 
                 }
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    if ( i < 33){
-                        level = 1;
-                        text_levelStatus.setText("I am a beginner");
-                        emoji1.setImageResource(R.drawable.sad_emoji);
-                        emoji1.startAnimation(expandIn);
-                        emoji2.startAnimation(collapseIn);
-                        emoji3.startAnimation(collapseIn);
-                        emoji2.setImageResource(R.drawable.blank);
-                        emoji2.setBackgroundColor(Color.TRANSPARENT);
-                        emoji3.setImageResource(R.drawable.blank);
-                        emoji3.setBackgroundColor(Color.TRANSPARENT);
-                    }
 
-                    else if ( i >= 33 && i < 70){
-
-                        level = 2;
-                        text_levelStatus.setText("I am intermediate");
-                        emoji2.setImageResource(R.drawable.heart_emoji);
-                        emoji2.startAnimation(expandIn);
-                        emoji1.startAnimation(collapseIn);
-                        emoji3.startAnimation(collapseIn);
-                        emoji1.setImageResource(R.drawable.blank);
-                        emoji1.setBackgroundColor(Color.TRANSPARENT);
-                        emoji3.setImageResource(R.drawable.blank);
-                        emoji3.setBackgroundColor(Color.TRANSPARENT);
-
-                    }
-
-                    else{
-                        level = 3;
-                        text_levelStatus.setText("I am advanced");
-                        emoji3.setImageResource(R.drawable.money_emoji);
-                        emoji3.startAnimation(expandIn);
-                        emoji1.startAnimation(collapseIn);
-                        emoji2.startAnimation(collapseIn);
-                        emoji1.setImageResource(R.drawable.blank);
-                        emoji1.setBackgroundColor(Color.TRANSPARENT);
-                        emoji2.setImageResource(R.drawable.blank);
-                        emoji2.setBackgroundColor(Color.TRANSPARENT);
-                    }
                 }
             });
 
