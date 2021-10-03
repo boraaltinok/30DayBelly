@@ -6,7 +6,9 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Build;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.SeekBar;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,15 +33,18 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
+import java.util.Objects;
 
 class ViewAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     User user = null;
     TextView text_name, text_fitness_level, text_weight, text_levelStatus;
+    Button btn_next;
     NumberPicker height_picker;
     SeekBar sb_fitnessLevel;
     ImageView emoji1, emoji2, emoji3;
+    boolean validName = false;
 
 
     ViewAdapter(Context context)
@@ -56,18 +63,59 @@ class ViewAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = null;
         if(position == 0)
         {
             view = layoutInflater.inflate(R.layout.get_name, null);
             text_name = view.findViewById(R.id.txt_name);
-            if(TextUtils.isEmpty(text_name.getText().toString())) {
-                text_name.setError("Your message");
-                //return;
-            }
-            ViewPager viewPager = (ViewPager) container;
+            btn_next = view.findViewById(R.id.btn_next);
+            final ViewPager viewPager = (ViewPager) container;
+            text_name.addTextChangedListener(new TextWatcher() {
+
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if(TextUtils.isEmpty(s))
+                    {
+                        btn_next.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_btn_not_entered));
+                        validName = false;
+                    }
+                    else
+                    {
+                        btn_next.setBackground(ContextCompat.getDrawable(context, R.drawable.close_btn_background));
+                        validName = true;
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+            
+
+
+
+            btn_next.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onClick(View v) {
+                   if(validName)
+                   {
+                       viewPager.setCurrentItem(position + 1);
+                   }
+                }
+            });
+
+
+
             viewPager.addView(view, 0);
         }
         else if(position == 1)
@@ -75,6 +123,8 @@ class ViewAdapter extends PagerAdapter {
             final Animation expandIn = AnimationUtils.loadAnimation(this.context, R.anim.expand_in);
             final Animation collapseIn = AnimationUtils.loadAnimation(this.context, R.anim.collapse_in);
             view = layoutInflater.inflate(R.layout.get_fitness_level, null);
+            Button btn_next_pos1 = view.findViewById(R.id.btn_next);
+
             sb_fitnessLevel = view.findViewById(R.id.sb_fitnessLevel);
             text_levelStatus = view.findViewById(R.id.tv_levelStatus);
             emoji1 = view.findViewById(R.id.ic_emoji1);
@@ -157,7 +207,13 @@ class ViewAdapter extends PagerAdapter {
                 }
             });
 
-            ViewPager viewPager = (ViewPager) container;
+            final ViewPager viewPager = (ViewPager) container;
+            btn_next_pos1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    viewPager.setCurrentItem(position + 1);
+                }
+            });
             viewPager.addView(view, 0);
         }
         else if(position == 2)
@@ -177,7 +233,30 @@ class ViewAdapter extends PagerAdapter {
             view = layoutInflater.inflate(R.layout.get_weight, null);
             text_weight = view.findViewById(R.id.text_weight);
 
-            ViewPager viewPager = (ViewPager) container;
+            final ViewPager viewPager = (ViewPager) container;
+
+            viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    if(position == 3 && (TextUtils.isEmpty(text_weight.getText().toString())))
+                    {
+                        text_weight.setError("ENTER YOUR WEIGHT PLEASE");
+                        viewPager.setCurrentItem(3);
+
+                    }
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
             viewPager.addView(view, 0);
 
 
@@ -259,6 +338,43 @@ class ViewAdapter extends PagerAdapter {
 
         else
             return 3;
+    }
+
+    /*
+    return 1/2 means 2 fragments in one screen 1/3 means 3 fragments in one screen etc.
+     */
+    @Override
+    public float getPageWidth(int position) {
+        float nbPages = 10; // You could display partial pages using a float value
+        return (1);
+    }
+
+    void checkInfoValid(final Button btn_next, TextView et_name)
+    {
+        et_name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!s.equals(""))
+                {
+                    btn_next.setBackground(ContextCompat.getDrawable(context, R.drawable.close_btn_background));
+                }
+                else
+                {
+                    btn_next.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_btn_not_entered));
+                }
+            }
+        });
     }
 
 }
