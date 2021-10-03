@@ -169,25 +169,6 @@ public class SelectedDaysProgram extends AppCompatActivity {
             btn_pause.performClick();
 
             openQuitWorkoutDialog();
-            /*AlertDialog.Builder builder = new AlertDialog.Builder(SelectedDaysProgram.this);
-            builder.setTitle("DO YOU WANT TO STOP THE WORKOUT");
-            builder.setIcon(android.R.drawable.ic_dialog_dialer);
-            builder.setMessage("Do you want to stop the workout :(?");
-            builder.setPositiveButton("Yes, i am tired!", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(getApplicationContext(), program_main.class);
-                    startActivity(intent);
-                }
-            });
-            builder.setNegativeButton("No i am warrior! THAT WAS ACCIDENT!", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(SelectedDaysProgram.this, "CONTINUES", Toast.LENGTH_SHORT).show();
-                    btn_start.performClick();
-                }
-            });
-            builder.show();*/
         }
 
     }

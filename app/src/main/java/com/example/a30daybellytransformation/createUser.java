@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,6 +33,8 @@ public class createUser extends AppCompatActivity {
      ViewAdapter viewAdapter;
      User user;
     TextView text_name, text_fitness_level;
+    boolean validName = false;
+    static int currentPagePosition = 0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -38,11 +42,20 @@ public class createUser extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_user);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         //initialzation
         loadData();
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setOffscreenPageLimit(4);//destroys the current screens data after selected number of slides
+        viewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
         dot1 = findViewById(R.id.dot1);
 
         viewAdapter = new ViewAdapter(this);

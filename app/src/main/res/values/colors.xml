@@ -10,4 +10,5 @@
     <color name="progress_color">#00ff37</color>
     <color name="icon_red_color">#EA3341</color>
     <color name="opaque_background">#B5000000</color>
+    <color name="color_btn_notEntered">#80C3C3C3</color>
 </resources>

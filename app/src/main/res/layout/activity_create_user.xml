@@ -7,10 +7,17 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context=".createUser">
+
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
-        android:id="@+id/view_pager"/>
+        android:layout_height="586dp" />
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:id="@+id/btn_next"
+        android:background="@drawable/bg_btn_not_entered"
+        android:text="NEXT"/>
     
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:layout_width="wrap_content"
